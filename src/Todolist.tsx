@@ -80,7 +80,7 @@ export function Todolist(props: PropsType) {
                         // console.log(event.currentTarget.checked)
                     }
 
-                    return <li key={t.id}>
+                    return <li key={t.id} className={t.isDone ? styles.isDone : ""}>
                         <input type="checkbox" checked={t.isDone} onChange={onChangeCheckboxHandler}/>
                         <span>{t.title}</span>
                         <button onClick={onClickHandler}>x</button>
@@ -89,9 +89,9 @@ export function Todolist(props: PropsType) {
             }
         </ul>
         <div>
-            <button className={styles.activeFilter} onClick={onAllClickHandler}>All</button>
-            <button className={styles.activeFilter} onClick={onActiveClickHandler}>Active</button>
-            <button className={styles.activeFilter} onClick={onCompletedClickHandler}>Completed</button>
+            <button className={activeButton=== 'all'? styles.activeFilter : ''} onClick={onAllClickHandler}>All</button>
+            <button className={activeButton=== 'active'? styles.activeFilter : ''} onClick={onActiveClickHandler}>Active</button>
+            <button className={activeButton=== 'completed'? styles.activeFilter : ''} onClick={onCompletedClickHandler}>Completed</button>
         </div>
     </div>
 }
