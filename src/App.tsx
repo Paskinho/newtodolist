@@ -34,7 +34,7 @@ function App() {
     const todoListId_1 = v1()
     const todoListId_2 = v1()
 
-    const [todoLists, setTodolists] = useState<Array<TodolistType>>([
+    const [todoLists, setTodoLists] = useState<Array<TodolistType>>([
         {id: todoListId_1, title: "What to learn", filter: "all"},
         {id: todoListId_2, title: "What to buy", filter: "all"}
     ])
@@ -91,12 +91,12 @@ function App() {
 
 
     const changeTodoListFilter = (filter: FilterValuesType, todoListId: string) => {
-        setTodolists(todoLists.map(tl => tl.id === todoListId ? {...tl, filter: filter}: tl))
+        setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, filter: filter}: tl))
     }
 
     const removeTodolist = (todoListId: string) => {
 
-        setTodolists(todoLists.filter(tl => tl.id !== todoListId))
+        setTodoLists(todoLists.filter(tl => tl.id !== todoListId))
         delete tasks[todoListId]
     }
 
@@ -114,7 +114,8 @@ function App() {
 
 
 
-    const todoListComponents = todoLists.map(tl => {
+    const todoListComponents = todoLists.length
+        ? todoLists.map(tl => {
         const filteredTasks=getFilteredTasks(tasks[tl.id],tl.filter)
             return (
                 <TodoList
@@ -132,7 +133,7 @@ function App() {
             )
         }
     )
-
+: <span>Create your first TodoList!!!</span>
 
 
     //GUI:
