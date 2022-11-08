@@ -112,21 +112,33 @@ function App() {
         return filteredTasks
     }
 
-    const filteredTasks = getFilteredTasks(tasksForTodoList, filter)
+
+
+    const todoListComponents = todoLists.map(tl => {
+        const filteredTasks=getFilteredTasks(tasks[tl.id],tl.filter)
+            return (
+                <TodoList
+                    key={tl.id}
+                    todoListId={tl.id}
+                    title={tl.title}
+                    tasks={filteredTasks}
+                    filter={tl.filter}
+                    addTask={addTask}
+                    removeTask={removeTask}
+                    removeTodolist={removeTodolist}
+                    changeTodoListFilter={changeTodoListFilter}
+                    changeTaskStatus={changeTaskStatus}
+                />
+            )
+        }
+    )
+
+
 
     //GUI:
     return (
         <div className="App">
-            <TodoList
-                title={todoListTitle}
-                tasks={filteredTasks}
-                filter={filter}
-
-                addTask={addTask}
-                removeTask={removeTask}
-                changeFilter={changeFilter}
-                changeTaskStatus={changeTaskStatus}
-            />
+            {todoListComponents}
         </div>
     );
 }
