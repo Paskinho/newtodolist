@@ -50,8 +50,8 @@ export const TodoList = (props: TodoListPropsType) => {
         setTitle(e.currentTarget.value)
         setError(false)
     }
-    const changeFilterHandlerCreator = (filter: FilterValuesType) => () => {
-        props.changeFilter(filter)
+    const changeFilterHandlerCreator = (filter: FilterValuesType) => {
+        return () => props.changeFilter(filter)
     }
     const onKeyDownEnterAddTask = (e: KeyboardEvent<HTMLInputElement>)=> e.key === "Enter" && onClickAddTask()
     const allBtnClass = props.filter === "all" ? "btn-active" : ""
@@ -88,4 +88,4 @@ export const TodoList = (props: TodoListPropsType) => {
             </div>
         </div>
     );
-};
+}

@@ -21,24 +21,30 @@ type TodolistType = {
     filter: FilterValuesType
 }
 
+type TasksStateType ={
+    [todoListId: string]: Array<TaskType>
+}
+
+
+
 
 function App() {
     // BLL:
 
-    const todolistId_1 = v1()
-    const todolistId_2 = v1()
+    const todoListId_1 = v1()
+    const todoListId_2 = v1()
 
-    const [todolists, setTodolists] = useState<Array<TodolistType>>([
-        {id: todolistId_1, title: "What to learn", filter: "all"},
-        {id: todolistId_2, title: "What to buy", filter: "all"}
+    const [todoLists, setTodolists] = useState<Array<TodolistType>>([
+        {id: todoListId_1, title: "What to learn", filter: "all"},
+        {id: todoListId_2, title: "What to buy", filter: "all"}
     ])
-    const [tasks, setTasks] = useState<any>({
-        [todolistId_1]: [
+    const [tasks, setTasks] = useState<TasksStateType>({
+        [todoListId_1]: [
             {id: v1(), title: "HTML & CSS", isDone: true},
             {id: v1(), title: "JS & ES6", isDone: true},
             {id: v1(), title: "REACT & TS", isDone: false},
         ],
-        [todolistId_2]: [
+        [todoListId_2]: [
             {id: v1(), title: "COLA", isDone: true},
             {id: v1(), title: "MILK", isDone: true},
             {id: v1(), title: "WATER", isDone: false},
@@ -47,30 +53,53 @@ function App() {
 
     //
     // const todoListTitle: string = "What to learn"
-    const [tasksForTodoList, setTasksForTodoList] = useState<Array<TaskType>>([
-        {id: v1(), title: "HTML & CSS", isDone: true},
-        {id: v1(), title: "JS & ES6", isDone: true},
-        {id: v1(), title: "REACT & TS", isDone: false},
-    ])
-    const removeTask = (taskId: string) => {
-        setTasksForTodoList(tasksForTodoList.filter(t => t.id !== taskId))
+
+    const removeTask = (taskId: string, todoListId: string) => {
+        const tasksForUpdate: Array<TaskType>=tasks[todoListId]
+        const resultOfUpdate: Array<TaskType> = tasksForUpdate.filter(t=> t.id !== taskId)
+        const copyTasks ={...tasks}
+        tasks[todoListId]=resultOfUpdate
+        setTasks(copyTasks)
+
+        // короткая запись:
+        setTasks({...tasks,[todoListId]: tasks[todoListId].filter(t=> t.id !== taskId)})
+
     }
-    const addTask = (title: string) => {
+    const addTask = (title: string, todoListId: string) => {
+        const tasksForUpdate: Array<TaskType> = tasks[todoListId]
         const newTask: TaskType = {
             id: v1(),
-            title,
+            title, // title: title
             isDone: false
         }
-        setTasksForTodoList([newTask, ...tasksForTodoList])
+        const resultOfUpdate: Array<TaskType> = [...tasksForUpdate,newTask]
+        const copyTasks: TasksStateType={...tasks}
+        copyTasks[todoListId] = resultOfUpdate
+        setTasks(copyTasks)
+
+        //короткая запись
+      setTasks({...tasks,[todoListId]:[...tasks[todoListId], newTask]})
     }
-    const changeTaskStatus = (taskId: string, isDone: boolean) => {
-        setTasksForTodoList(tasksForTodoList.map(t => t.id === taskId ? {...t, isDone: isDone} : t))
+    const changeTaskStatus = (taskId: string, isDone: boolean, todoListId: string) => {
+        const tasksForUpdate: Array<TaskType> = tasks[todoListId]
+        const resultOfUpdate: Array<TaskType> = tasksForUpdate.map(t => t.id === todoListId ? {...t, isDone: isDone}: t)
+    const copyTasks: TasksStateType={...tasks}
+        copyTasks[todoListId] = resultOfUpdate
+        setTasks(copyTasks)
+
     }
 
-    const [filter, setFilter] = useState<FilterValuesType>("all")
-    const changeFilter = (filter: FilterValuesType) => {
-        setFilter(filter)
+
+    const changeTodoListFilter = (filter: FilterValuesType, todoListId: string) => {
+        setTodolists(todoLists.map(tl => tl.id === todoListId ? {...tl, filter: filter}: tl))
     }
+
+    const removeTodolist = (todoListId: string) => {
+
+        setTodolists(todoLists.filter(tl => tl.id !== todoListId))
+        delete tasks[todoListId]
+    }
+
 
     const getFilteredTasks = (tasks: Array<TaskType>, filterValue: FilterValuesType) => {
         let filteredTasks = tasks
