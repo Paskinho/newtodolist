@@ -9,20 +9,48 @@ export type TaskType = {
     isDone: boolean
 }
 
-export type FilterValuesType = "all"|"active"|"completed"
+export type FilterValuesType = "all" | "active" | "completed"
 // Create +
 // Read => +, filtration
 // Update +
 // Delete +
 
+type TodolistType = {
+    id: string
+    title: string
+    filter: FilterValuesType
+}
+
 
 function App() {
     // BLL:
-    const todoListTitle: string = "What to learn"
+
+    const todolistId_1 = v1()
+    const todolistId_2 = v1()
+
+    const [todolists, setTodolists] = useState<Array<TodolistType>>([
+        {id: todolistId_1, title: "What to learn", filter: "all"},
+        {id: todolistId_2, title: "What to buy", filter: "all"}
+    ])
+    const [tasks, setTasks] = useState<any>({
+        [todolistId_1]: [
+            {id: v1(), title: "HTML & CSS", isDone: true},
+            {id: v1(), title: "JS & ES6", isDone: true},
+            {id: v1(), title: "REACT & TS", isDone: false},
+        ],
+        [todolistId_2]: [
+            {id: v1(), title: "COLA", isDone: true},
+            {id: v1(), title: "MILK", isDone: true},
+            {id: v1(), title: "WATER", isDone: false},
+        ]
+    })
+
+    //
+    // const todoListTitle: string = "What to learn"
     const [tasksForTodoList, setTasksForTodoList] = useState<Array<TaskType>>([
-        {id: v1(),  title: "HTML & CSS", isDone: true},
-        {id: v1(),  title: "JS & ES6", isDone: true},
-        {id: v1(),  title: "REACT & TS", isDone: false},
+        {id: v1(), title: "HTML & CSS", isDone: true},
+        {id: v1(), title: "JS & ES6", isDone: true},
+        {id: v1(), title: "REACT & TS", isDone: false},
     ])
     const removeTask = (taskId: string) => {
         setTasksForTodoList(tasksForTodoList.filter(t => t.id !== taskId))
@@ -41,15 +69,15 @@ function App() {
 
     const [filter, setFilter] = useState<FilterValuesType>("all")
     const changeFilter = (filter: FilterValuesType) => {
-      setFilter(filter)
+        setFilter(filter)
     }
 
     const getFilteredTasks = (tasks: Array<TaskType>, filterValue: FilterValuesType) => {
         let filteredTasks = tasks
-        if(filterValue === "active"){
+        if (filterValue === "active") {
             filteredTasks = tasks.filter(t => !t.isDone)
         }
-        if(filterValue=== "completed"){
+        if (filterValue === "completed") {
             filteredTasks = tasks.filter(t => t.isDone)
         }
         return filteredTasks
