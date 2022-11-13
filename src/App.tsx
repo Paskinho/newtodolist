@@ -63,7 +63,6 @@ function App() {
 
         // короткая запись:
         setTasks({...tasks,[todoListId]: tasks[todoListId].filter(t=> t.id !== taskId)})
-
     }
     const addTask = (title: string, todoListId: string) => {
         const tasksForUpdate: Array<TaskType> = tasks[todoListId]
