@@ -2,6 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
+    placeholder: string
 }
 
 
@@ -9,8 +10,8 @@ const AddItemForm = (props: AddItemFormPropsType) => {
     const [title,setTitle]= useState("")
     const [error, setError] = useState<boolean>(false)
     const onChangeSetLocalTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        error && setError(false)
         setTitle(e.currentTarget.value)
-        setError(false)
     }
 
 
@@ -33,6 +34,7 @@ const onKeyDownEnterAddItem = (e: KeyboardEvent<HTMLInputElement>) => e.key === 
                 onChange={onChangeSetLocalTitle}
                 onKeyDown={onKeyDownEnterAddItem}
                 className={error ? "error" : ""}
+                placeholder={props.placeholder}
             />
             <button onClick={onClickAddItem}>+</button>
             {error &&

@@ -52,8 +52,15 @@ function App() {
         ]
     })
 
-    //
-    // const todoListTitle: string = "What to learn"
+
+    const changeTaskTitle = (taskId: string, title: string, todolistId: string)=> {
+        setTasks({
+            ...tasks,
+            [todolistId]: tasks[todolistId].map(t => t.id === taskId ? {
+            ...t, title
+            }:t)})
+    }
+
 
     const removeTask = (taskId: string, todoListId: string) => {
         const tasksForUpdate: Array<TaskType>=tasks[todoListId]
@@ -92,6 +99,12 @@ function App() {
     const changeTodoListFilter = (filter: FilterValuesType, todoListId: string) => {
         setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, filter: filter}: tl))
     }
+
+
+    const changeTodolistTitle = (title: string, todoListId: string) => {
+        setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, title: title}: tl))
+    }
+
 
     const removeTodolist = (todoListId: string) => {
 
@@ -139,6 +152,8 @@ function App() {
                     removeTodolist={removeTodolist}
                     changeTodoListFilter={changeTodoListFilter}
                     changeTaskStatus={changeTaskStatus}
+                    changeTaskTitle={changeTaskTitle}
+                    changeTodolistTitle={changeTodolistTitle}
                 />
             )
         }
@@ -149,7 +164,9 @@ function App() {
     //GUI:
     return (
         <div className="App">
-            <AddItemForm addItem={addTodolist}/>
+
+            <AddItemForm addItem={addTodolist}
+            placeholder={"Add new todolist"}/>
             {todoListComponents}
         </div>
     );
