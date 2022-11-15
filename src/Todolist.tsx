@@ -46,6 +46,9 @@ export const TodoList = (props: TodoListPropsType) => {
 
 
     const removeTodoList = () => props.removeTodolist(props.todoListId)
+    const addTask = (title: string) => props.addTask(title, props.todoListId)
+
+
     const allBtnClass = props.filter === "all" ? "btn-active" : ""
     const activeBtnClass = props.filter === "active" ? "btn-active" : ""
     const completedBtnClass = props.filter === "completed" ? "btn-active" : ""
