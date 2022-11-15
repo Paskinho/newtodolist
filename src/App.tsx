@@ -147,12 +147,14 @@ function App() {
                     title={tl.title}
                     tasks={filteredTasks}
                     filter={tl.filter}
+
                     addTask={addTask}
                     removeTask={removeTask}
-                    removeTodolist={removeTodolist}
-                    changeTodoListFilter={changeTodoListFilter}
                     changeTaskStatus={changeTaskStatus}
                     changeTaskTitle={changeTaskTitle}
+
+                    changeTodoListFilter={changeTodoListFilter}
+                    removeTodolist={removeTodolist}
                     changeTodolistTitle={changeTodolistTitle}
                 />
             )
