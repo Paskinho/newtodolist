@@ -64,7 +64,7 @@ const changeTitle = (nextTitle: string) => props.changeTodolistTitle(nextTitle, 
 
     return (
         <div>
-            <h3>{props.title}
+            <h3>
             <EditableSpan title={props.title} changeTitle={changeTitle}/>
             </h3>
             <button onClick={removeTodoList}>X</button>
