@@ -1,4 +1,6 @@
+import { IconButton } from '@mui/material';
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {AddBoxOutlined} from "@mui/icons-material";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
@@ -37,6 +39,9 @@ const onKeyDownEnterAddItem = (e: KeyboardEvent<HTMLInputElement>) => e.key === 
                 placeholder={props.placeholder}
             />
             <button onClick={onClickAddItem}>+</button>
+            <IconButton>
+            <AddBoxOutlined />
+            </IconButton>
             {error &&
                 <div style={{fontWeight: "bold", color: "hotpink"}}>
                     Title is required</div>}

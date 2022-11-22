@@ -2,7 +2,8 @@ import React, {ChangeEvent} from 'react';
 import {FilterValuesType, TaskType} from "./App";
 import AddItemForm from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
-import {Button} from "@mui/material";
+import {Button, Checkbox, IconButton} from "@mui/material";
+import {DeleteForeverOutlined} from "@mui/icons-material";
 
 
 type TodoListPropsType = {
@@ -35,14 +36,18 @@ export const TodoList = (props: TodoListPropsType) => {
                     const isDoneClass = task.isDone ? "isDone" : ""
                     return (
                         <li key={task.id} className={isDoneClass}>
-                            <input
-                                type="checkbox"
+
+                            <Checkbox
+                                size = {"small"}
+                                color = {"primary"}
                                 checked={task.isDone}
                                 onChange={changeTaskStatus}
                             />
                             <EditableSpan title={task.title} changeTitle={changeTaskTitle}/>
 
-                            <button onClick={removeTask}>x</button>
+                            <IconButton onClick={removeTask} size={"small"}>
+                                <DeleteForeverOutlined/>
+                            </IconButton>
                         </li>
                     )
                 })
@@ -71,7 +76,9 @@ const btnStyle = {marginRight: "2px"}
             <h3>
             <EditableSpan title={props.title} changeTitle={changeTitle}/>
             </h3>
-            <button onClick={removeTodoList}>X</button>
+            <IconButton onClick={removeTodoList}>
+                <DeleteForeverOutlined/>
+            </IconButton>
             <AddItemForm addItem={addTask}
             placeholder={"Add new Task"}/>
             {tasksJSXItemsList}
