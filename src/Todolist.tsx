@@ -60,9 +60,11 @@ export const TodoList = (props: TodoListPropsType) => {
     const addTask = (title: string) => props.addTask(title, props.todoListId)
 const changeTitle = (nextTitle: string) => props.changeTodolistTitle(nextTitle, props.todoListId)
 
-    const allBtnClass = props.filter === "all" ? "btn-active" : ""
-    const activeBtnClass = props.filter === "active" ? "btn-active" : ""
-    const completedBtnClass = props.filter === "completed" ? "btn-active" : ""
+    // const allBtnClass = props.filter === "all" ? "btn-active" : ""
+    // const activeBtnClass = props.filter === "active" ? "btn-active" : ""
+    // const completedBtnClass = props.filter === "completed" ? "btn-active" : ""
+const btnStyle = {marginRight: "2px"}
+
 
     return (
         <div>
@@ -75,23 +77,28 @@ const changeTitle = (nextTitle: string) => props.changeTodolistTitle(nextTitle, 
             {tasksJSXItemsList}
             <div>
                 <Button
+                    style={btnStyle}
                     variant={"contained"}
-                    color={"primary"}
-                    className={allBtnClass}
+                    color={props.filter === "all" ? "secondary" : "primary"}
+                    size={"small"}
+                    disableElevation
                     onClick={changeFilterHandlerCreator("all")}
                 >All
                 </Button>
                 <Button
+                    style={btnStyle}
                     variant={"contained"}
-                    color={"primary"}
-                    className={activeBtnClass}
+                    color={props.filter === "active" ? "secondary" : "primary"}
+                    size={"small"}
+                    disableElevation
                     onClick={changeFilterHandlerCreator("active")}
                 >Active
                 </Button>
                 <Button
                     variant={"contained"}
-                    color={"secondary"}
-                    className={completedBtnClass}
+                    color={props.filter === "completed" ? "secondary" : "primary"}
+                    size={"small"}
+                    disableElevation
                     onClick={changeFilterHandlerCreator("completed")}
                 >Completed
                 </Button>
