@@ -2,7 +2,7 @@ import React, {ChangeEvent} from 'react';
 import {FilterValuesType, TaskType} from "./App";
 import AddItemForm from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
-import {Button, Checkbox, IconButton} from "@mui/material";
+import {Button, Checkbox, IconButton, List, ListItem} from "@mui/material";
 import {DeleteForeverOutlined} from "@mui/icons-material";
 
 
@@ -23,7 +23,7 @@ type TodoListPropsType = {
 export const TodoList = (props: TodoListPropsType) => {
 
     const tasksJSXItemsList = props.tasks.length
-        ? <ul>
+        ? <List>
             {
                 props.tasks.map((task) => {
                     const removeTask = () => props.removeTask(task.id, props.todoListId)
@@ -35,7 +35,9 @@ export const TodoList = (props: TodoListPropsType) => {
 
                     const isDoneClass = task.isDone ? "isDone" : ""
                     return (
-                        <li key={task.id} className={isDoneClass}>
+                        <ListItem
+                            key={task.id}
+                            className={isDoneClass}>
 
                             <Checkbox
                                 size = {"small"}
@@ -48,11 +50,11 @@ export const TodoList = (props: TodoListPropsType) => {
                             <IconButton onClick={removeTask} size={"small"}>
                                 <DeleteForeverOutlined/>
                             </IconButton>
-                        </li>
+                        </ListItem>
                     )
                 })
             }
-        </ul>
+        </List>
         : <span>Your list is empty</span>
 
 
