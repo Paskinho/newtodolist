@@ -3,6 +3,8 @@ import './App.css'
 import {TodoList} from "./Todolist";
 import {v1} from "uuid";
 import AddItemForm from "./AddItemForm";
+import {AppBar, Button, Container, Grid, IconButton, Toolbar, Typography} from '@mui/material';
+import {Menu} from "@mui/icons-material";
 
 export type TaskType = {
     id: string,
@@ -11,10 +13,7 @@ export type TaskType = {
 }
 
 export type FilterValuesType = "all" | "active" | "completed"
-// Create +
-// Read => +, filtration
-// Update +
-// Delete +
+
 
 type TodolistType = {
     id: string
@@ -166,10 +165,26 @@ function App() {
     //GUI:
     return (
         <div className="App">
+            <AppBar position="static">
 
+                <Toolbar style={{justifyContent: "space-between"}}>
+                    <IconButton edge="start" color="inherit" aria-label="menu">
+                        <Menu/>
+                    </IconButton>
+                    <Typography variant="h6">
+                        Todolists
+                    </Typography>
+                    <Button color="inherit" variant={"outlined"}>Login</Button>
+                </Toolbar>
+
+            </AppBar>
+    <Container fixed>
+        <Grid container>
             <AddItemForm addItem={addTodolist}
-            placeholder={"add new todolist"}/>
-            {todoListComponents}
+            placeholder={"add new todolist"}/></Grid>
+        <Grid> {todoListComponents}</Grid>
+
+    </Container>
         </div>
     );
 }
