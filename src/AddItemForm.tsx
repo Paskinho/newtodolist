@@ -1,4 +1,4 @@
-import { IconButton } from '@mui/material';
+import {IconButton, TextField} from '@mui/material';
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {AddBoxOutlined} from "@mui/icons-material";
 
@@ -30,17 +30,18 @@ const onKeyDownEnterAddItem = (e: KeyboardEvent<HTMLInputElement>) => e.key === 
 
     return (
         <div>
-
-            <input
+            <TextField
+                variant={"outlined"}
                 value={title}
                 onChange={onChangeSetLocalTitle}
                 onKeyDown={onKeyDownEnterAddItem}
-                className={error ? "error" : ""}
                 placeholder={props.placeholder}
+                label={props.placeholder}
             />
-            <button onClick={onClickAddItem}>+</button>
+
+
             <IconButton>
-            <AddBoxOutlined />
+            <AddBoxOutlined onClick={onClickAddItem}/>
             </IconButton>
             {error &&
                 <div style={{fontWeight: "bold", color: "hotpink"}}>
