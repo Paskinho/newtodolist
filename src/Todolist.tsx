@@ -80,7 +80,7 @@ const btnStyle = {marginRight: "2px"}
                 <DeleteForeverOutlined/>
             </IconButton>
             <AddItemForm addItem={addTask}
-            placeholder={"Add new Task"}/>
+            placeholder={"add new Task"}/>
             {tasksJSXItemsList}
             <div>
                 <Button

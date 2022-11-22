@@ -31,21 +31,22 @@ const onKeyDownEnterAddItem = (e: KeyboardEvent<HTMLInputElement>) => e.key === 
     return (
         <div>
             <TextField
+                size={"small"}
                 variant={"outlined"}
                 value={title}
                 onChange={onChangeSetLocalTitle}
                 onKeyDown={onKeyDownEnterAddItem}
                 placeholder={props.placeholder}
                 label={props.placeholder}
+                error={error}
+                helperText={error && "Title is required!"}
             />
 
 
             <IconButton>
             <AddBoxOutlined onClick={onClickAddItem}/>
             </IconButton>
-            {error &&
-                <div style={{fontWeight: "bold", color: "hotpink"}}>
-                    Title is required</div>}
+
 
             </div>
     );

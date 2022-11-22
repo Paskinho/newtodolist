@@ -168,7 +168,7 @@ function App() {
         <div className="App">
 
             <AddItemForm addItem={addTodolist}
-            placeholder={"Add new todolist"}/>
+            placeholder={"add new todolist"}/>
             {todoListComponents}
         </div>
     );
