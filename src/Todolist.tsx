@@ -2,6 +2,8 @@ import React, {ChangeEvent} from 'react';
 import {FilterValuesType, TaskType} from "./App";
 import AddItemForm from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
+import {Button} from "@mui/material";
+
 
 type TodoListPropsType = {
     todoListId: string
@@ -72,21 +74,27 @@ const changeTitle = (nextTitle: string) => props.changeTodolistTitle(nextTitle, 
             placeholder={"Add new Task"}/>
             {tasksJSXItemsList}
             <div>
-                <button
+                <Button
+                    variant={"contained"}
+                    color={"primary"}
                     className={allBtnClass}
                     onClick={changeFilterHandlerCreator("all")}
                 >All
-                </button>
-                <button
+                </Button>
+                <Button
+                    variant={"contained"}
+                    color={"primary"}
                     className={activeBtnClass}
                     onClick={changeFilterHandlerCreator("active")}
                 >Active
-                </button>
-                <button
+                </Button>
+                <Button
+                    variant={"contained"}
+                    color={"secondary"}
                     className={completedBtnClass}
                     onClick={changeFilterHandlerCreator("completed")}
                 >Completed
-                </button>
+                </Button>
             </div>
         </div>
     );
