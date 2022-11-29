@@ -6,7 +6,6 @@ const ADD_TODOLIST = 'ADD-TODOLIST'
 const CHANGE_TODOLIST_FILTER = 'CHANGE-TODOLIST-FILTER'
 const CHANGE_TODOLIST_TITLE = 'CHANGE_TODOLIST_TITLE'
 
-
 export type RemoveTodolistAT = {
     type: typeof REMOVE_TODOLIST
     id: string
