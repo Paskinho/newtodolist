@@ -1,55 +1,49 @@
-import {IconButton, TextField} from '@mui/material';
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {AddBoxOutlined} from "@mui/icons-material";
+import {IconButton, TextField} from "@mui/material";
+import {AddBox} from "@mui/icons-material";
+
+
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
-    placeholder: string
 }
 
+export function AddItemForm(props: AddItemFormPropsType) {
 
-const AddItemForm = (props: AddItemFormPropsType) => {
-    const [title,setTitle]= useState("")
-    const [error, setError] = useState<boolean>(false)
-    const onChangeSetLocalTitle = (e: ChangeEvent<HTMLInputElement>) => {
-        error && setError(false)
+    let [title, setTitle] = useState("")
+    let [error, setError] = useState<string | null>(null)
+
+    const addItem = () => {
+        if (title.trim() !== "") {
+            props.addItem(title);
+            setTitle("");
+        } else {
+            setError("Title is required");
+        }
+    }
+
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
 
-
-const onClickAddItem = () => {
-    const trimmedTitle = title.trim()
-    if (trimmedTitle) {
-        props.addItem(trimmedTitle)
-    } else {
-        setError(true)
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        setError(null);
+        if (e.charCode === 13) {
+            addItem();
+        }
     }
-    setTitle("")
+
+    return <div>
+        <TextField variant="outlined"
+                   error={!!error}
+                   value={title}
+                   onChange={onChangeHandler}
+                   onKeyPress={onKeyPressHandler}
+                   label="Title"
+                   helperText={error}
+        />
+        <IconButton color="primary" onClick={addItem}>
+            <AddBox />
+        </IconButton>
+    </div>
 }
-const onKeyDownEnterAddItem = (e: KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && onClickAddItem()
-
-    return (
-        <div>
-            <TextField
-                size={"small"}
-                variant={"outlined"}
-                value={title}
-                onChange={onChangeSetLocalTitle}
-                onKeyDown={onKeyDownEnterAddItem}
-                placeholder={props.placeholder}
-                label={props.placeholder}
-                error={error}
-                helperText={error && "Title is required!"}
-            />
-
-
-            <IconButton>
-            <AddBoxOutlined onClick={onClickAddItem}/>
-            </IconButton>
-
-
-            </div>
-    );
-};
-
-export default AddItemForm;

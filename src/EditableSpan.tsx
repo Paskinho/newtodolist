@@ -1,43 +1,30 @@
-import { TextField } from '@mui/material';
+import TextField from '@mui/material/TextField/TextField';
 import React, {ChangeEvent, useState} from 'react';
-import {KeyboardEvent} from "react";
 
-type EditableSpanPropsType ={
-    title: string
-    changeTitle: (nextTitle: string) => void
+
+type EditableSpanPropsType = {
+    value: string
+    onChange: (newValue: string) => void
 }
 
-const EditableSpan = (props: EditableSpanPropsType) => {
-    const [isEditMode, setIsEditMode] = useState<boolean>(false)
-    const [title,setTitle]= useState(props.title)
-    const onEditMode = () => {
-        setIsEditMode(true)
+export function EditableSpan(props: EditableSpanPropsType) {
+    let [editMode, setEditMode] = useState(false);
+    let [title, setTitle] = useState(props.value);
+
+    const activateEditMode = () => {
+        setEditMode(true);
+        setTitle(props.value);
     }
-    const offEditMode =() => {
-        setIsEditMode(false)
+    const activateViewMode = () => {
+        setEditMode(false);
+        props.onChange(title);
     }
-    const onChangeSetLocalTitle = (e: ChangeEvent<HTMLInputElement>) => {
-       props.changeTitle(title)
+    const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
-
     }
 
-    const OnKeyChangeTitle = (e:KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && offEditMode()
-    return (
-        isEditMode
-            ? <TextField
-                value={title}
-                onBlur={offEditMode}
-                autoFocus
-                onChange={onChangeSetLocalTitle}
-                onKeyDown={OnKeyChangeTitle}
-            />
-        :<span onDoubleClick={onEditMode}>
-{props.title}
-
-        </span>
-
-    );
-};
-
-export default EditableSpan;
+    return editMode
+        ?    <TextField variant="outlined"
+                        value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode} />
+        : <span onDoubleClick={activateEditMode}>{props.value}</span>
+}
