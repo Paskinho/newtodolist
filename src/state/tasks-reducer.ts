@@ -2,12 +2,10 @@ import {FilterValuesType, TasksStateType, TodolistType} from '../App';
 import {v1} from 'uuid';
 
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
-export type SecondActionType = {
-    type: ''
-}
+export type AddTaskActionType = ReturnType<typeof addTaskAC>
 
 
-type ActionsType = RemoveTaskActionType | SecondActionType;
+type ActionsType = RemoveTaskActionType | AddTaskActionType;
 
 export const tasksReducer = (state: TasksStateType, action: ActionsType) => {
     switch (action.type) {
@@ -16,8 +14,11 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType) => {
                 ...state,
                 [action.todolistId]:state[action.todolistId].filter(task=> task.id !== action.taskId)
             }
-        case '':
-            return state
+        case 'ADD-TASK':
+            return {
+                ...state,
+                [action.todolistID]:[{id:v1(), title:action.title,isDone:false},...state[action.todolistID]]
+            }
         default:
             throw new Error("I don't understand this type")
     }
@@ -26,6 +27,6 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType) => {
 export const removeTaskAC = (taskId: string, todolistId: string) => {
     return { type: 'REMOVE-TASK', taskId,todolistId} as const
 }
-export const secondAC = (title: string)=> {
-    return { type: '', title}
+export const addTaskAC = (title: string, todolistID: string)=> {
+    return { type: 'ADD-TASK', title, todolistID} as const
 }
