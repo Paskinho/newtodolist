@@ -80,7 +80,7 @@ test('status of specified task should be changed', () => {
     expect(endState['todolistId1'][1].isDone).toBe(true)
 })
 
-test('status of changing task title', () => {
+test('title of specified task should be changed', () => {
     const startState: TasksStateType = {
         'todolistId1': [
             {id: '1', title: 'CSS', isDone: false},
