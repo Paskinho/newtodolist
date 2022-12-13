@@ -36,10 +36,10 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType) => {
                 ...state,
                 [action.todolistId]:state[action.todolistId].map(t=> t.id === action.taskId ? {...t, title: action.title}: t)
             }
-        case 'ADD-TASK':
+        case 'ADD-TODOLIST':
             return {
                 ...state,
-                [v1()]:[]
+                [action.todolistId]:[]
             }
         default:
             throw new Error("I don't understand this type")
