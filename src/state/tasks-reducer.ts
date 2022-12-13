@@ -42,7 +42,10 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType) => {
                 ...state,
                 [action.todolistId]:[]
             }
-            case 'REMOVE-TODOLIST':
+        case 'REMOVE-TODOLIST':
+
+                //через деструктуризацию let {[action.id]: [], ...rest} = {...state}
+            //return rest
                 let copyState = {...state}
                 delete copyState[action.id]
             return copyState
