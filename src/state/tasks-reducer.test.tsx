@@ -1,12 +1,12 @@
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './tasks-reducer'
-import { TasksStateType } from '../App'
+import {TasksStateType} from '../App'
 import {AddTodolistAC, RemoveTodolistAC} from "./todolists-reducer";
 
 
 let startState: TasksStateType
 
-beforeEach(()=> {
-    startState  = {
+beforeEach(() => {
+    startState = {
         'todolistId1': [
             {id: '1', title: 'CSS', isDone: false},
             {id: '2', title: 'JS', isDone: true},
@@ -20,15 +20,10 @@ beforeEach(()=> {
     }
 })
 
-
-
 test('correct task should be deleted from correct array', () => {
 
-
     const action = removeTaskAC('2', 'todolistId2')
-
     const endState = tasksReducer(startState, action)
-
     expect(endState).toEqual({
         'todolistId1': [
             {id: '1', title: 'CSS', isDone: false},
@@ -42,9 +37,7 @@ test('correct task should be deleted from correct array', () => {
     })
 })
 
-
 test('correct task should be added to correct array', () => {
-
 
     const action = addTaskAC('juice', 'todolistId2')
 
@@ -95,7 +88,6 @@ test('new array should be added when new todolist is added', () => {
     expect(keys.length).toBe(3)
     expect(endState[newKey]).toEqual([])
 })
-
 
 
 test('property with todolistId should be deleted', () => {
