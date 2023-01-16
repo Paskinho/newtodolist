@@ -22,10 +22,10 @@ export const TodolistWithRedux = ({todolist}:TodolistWithReduxPropsType ) => {
     let tasks = useSelector<AppRootStateType, Array<TaskType>> (state => state.tasks[id])
 
     if (filter === "active") {
-        tasks = tasks.filter(t => t.isDone === false);
+        tasks = tasks.filter(t => t.isDone);
     }
     if (filter === "completed") {
-        tasks = tasks.filter(t => t.isDone === true);
+        tasks = tasks.filter(t => t.isDone);
     }
 
     const dispatch = useDispatch()
