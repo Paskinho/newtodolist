@@ -21,6 +21,8 @@ export const TodolistWithRedux = ({todolist}:TodolistWithReduxPropsType ) => {
 
     let tasks = useSelector<AppRootStateType, Array<TaskType>> (state => state.tasks[id])
 
+    debugger
+
     if (filter === "active") {
         tasks = tasks.filter(t => t.isDone);
     }
@@ -61,6 +63,7 @@ export const TodolistWithRedux = ({todolist}:TodolistWithReduxPropsType ) => {
                 tasks.map(t => {
                     const onClickHandler = () => dispatch(removeTaskAC(t.id,id))
                     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                        debugger
                         let newIsDoneValue = e.currentTarget.checked;
                         dispatch(changeTaskStatusAC(t.id,newIsDoneValue,id));
                     }

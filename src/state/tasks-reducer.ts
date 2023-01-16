@@ -19,6 +19,7 @@ type ActionsType = RemoveTaskActionType
 const initialState: TasksStateType= {}
 
 export const tasksReducer = (state = initialState, action: ActionsType) => {
+    debugger
     switch (action.type) {
         case 'REMOVE-TASK':
             return {
@@ -31,6 +32,8 @@ export const tasksReducer = (state = initialState, action: ActionsType) => {
                 [action.todolistId]:[{id:v1(), title:action.title,isDone:false},...state[action.todolistId]]
             }
         case 'CHANGE-STATUS-TASK':
+            debugger
+
             return {
                 ...state,
                 [action.todolistId]:state[action.todolistId].map(t=> t.id === action.taskId ? {...t, isDone: action.isDone}: t)
