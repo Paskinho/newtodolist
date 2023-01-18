@@ -3,8 +3,7 @@ import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from './AddItemForm';
-import AppBar from '@mui/material/AppBar/AppBar';
-import {Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
 
 
@@ -39,7 +38,6 @@ function App() {
             {id: v1(), title: "React Book", isDone: true}
         ]
     });
-
 
     function removeTask(id: string, todolistId: string) {
         //достанем нужный массив по todolistId:
