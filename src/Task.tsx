@@ -13,7 +13,9 @@ export type TaskPropsType = {
 }
 
  const Task = memo (({task,removeTask,changeTaskTitle, changeTaskStatus}: TaskPropsType) => {
-    let {id,isDone,title}=task
+
+     console.log('EditableSpan')
+     let {id,isDone,title}=task
 
     const onClickHandler = () => removeTask(id)
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {

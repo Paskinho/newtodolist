@@ -27,7 +27,6 @@ type PropsType = {
 }
 
 export const Todolist = memo((props: PropsType) => {
-    console.log("Todolist called")
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.id);
     }, [])
@@ -37,11 +36,11 @@ export const Todolist = memo((props: PropsType) => {
     }
     const changeTodolistTitle = useCallback((title: string) => {
         props.changeTodolistTitle(props.id, title);
-    },[props.changeTodolistTitle,props.id,])
+    },[props.changeTodolistTitle,props.id])
 
-    const onAllClickHandler = () => props.changeFilter("all", props.id);
-    const onActiveClickHandler = () => props.changeFilter("active", props.id);
-    const onCompletedClickHandler = () => props.changeFilter("completed", props.id);
+    const onAllClickHandler = useCallback(() => props.changeFilter("all", props.id),[props.id]);
+    const onActiveClickHandler = useCallback(() => props.changeFilter("active", props.id), [props.id]);
+    const onCompletedClickHandler = useCallback(() => props.changeFilter("completed", props.id),[props.id]);
 
     let tasks = props.tasks
 
@@ -100,4 +99,19 @@ export const Todolist = memo((props: PropsType) => {
     </div>
 })
 
+
+type ButtonWithMemoPropsType = {
+    title: string
+    onClick: () => void
+    color: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
+    variant: 'text' | 'outlined' | 'contained'
+}
+
+const ButtonWithMemo = (props:ButtonWithMemoPropsType) => {
+    return <Button variant={props.variant}
+                   onClick={props.onClick}
+                   color={props.color}
+    >{props.title}
+    </Button>
+}
 
