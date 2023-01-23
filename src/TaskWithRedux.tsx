@@ -3,25 +3,24 @@ import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@mui/icons-material";
 import {TaskType} from "./Todolist";
+import {useDispatch} from "react-redux";
 
 
 export type TaskPropsType = {
+    todolistId: string
     task: TaskType
-    removeTask: (taskId: string) => void
-    changeTaskStatus: (id: string, isDone: boolean) => void
-    changeTaskTitle: (taskId: string, newTitle: string) => void
+
 }
 
- const Task = memo (({task,removeTask,changeTaskTitle, changeTaskStatus}: TaskPropsType) => {
+const Task = memo(({task,todolistId}: TaskPropsType) => {
 
-     let {id,isDone,title}=task
-
-
+    let {id, isDone, title} = task
+    const dispatch = useDispatch()
 
     const onClickHandler = () => removeTask(id)
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
-       changeTaskStatus(id, newIsDoneValue);
+        changeTaskStatus(id, newIsDoneValue);
     }
     const onTitleChangeHandler = (newValue: string) => {
         changeTaskTitle(id, newValue,);
@@ -35,9 +34,9 @@ export type TaskPropsType = {
             onChange={onChangeHandler}
         />
 
-        <EditableSpan value={title} onChange={onTitleChangeHandler} />
+        <EditableSpan value={title} onChange={onTitleChangeHandler}/>
         <IconButton onClick={onClickHandler}>
-            <Delete />
+            <Delete/>
         </IconButton>
     </div>
 });
