@@ -10,7 +10,6 @@ import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks
 export type TaskPropsType = {
     todolistId: string
     task: TaskType
-
 }
 
 const TaskWithRedux = memo(({task,todolistId}: TaskPropsType) => {
@@ -27,14 +26,12 @@ const TaskWithRedux = memo(({task,todolistId}: TaskPropsType) => {
         dispatch(changeTaskTitleAC(id, newValue,todolistId));
     }
 
-
     return <div className={isDone ? "is-done" : ""}>
         <Checkbox
             checked={isDone}
             color="primary"
             onChange={onChangeHandler}
         />
-
         <EditableSpan value={title} onChange={onTitleChangeHandler}/>
         <IconButton onClick={onClickHandler}>
             <Delete/>
