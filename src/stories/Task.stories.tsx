@@ -5,7 +5,13 @@ import {action} from "@storybook/addon-actions";
 
 export default {
     title: "TODOLIST/TASK",
-    component: Task
+    component: Task,
+    args: {
+        todolistId: "sadgasdg",
+        changeTaskStatus: action ("changeTaskStatus"),
+        changeTaskTitle: action ("changeTaskTitle"),
+        removeTask: action ("removeTask")
+    }
 } as ComponentMeta<typeof Task>
 
 
@@ -15,8 +21,10 @@ export const TaskIsDoneStory = Template.bind({})
 
 TaskIsDoneStory.args = {
     task: {id: "aaasd", isDone: true, title: "JS"},
-    todolistId: "sadgasdg",
-    changeTaskStatus: action ("changeTaskStatus"),
-        changeTaskTitle: action ("changeTaskTitle"),
-    removeTask: action ("removeTask")
+}
+
+export const TaskIsNotDoneStory = Template.bind({})
+
+TaskIsNotDoneStory.args = {
+    task: {id: "assadf", isDone: false, title: "CSS"},
 }
