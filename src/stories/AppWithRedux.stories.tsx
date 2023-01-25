@@ -6,21 +6,19 @@ import TextField from "@mui/material/TextField/TextField";
 import {IconButton} from "@mui/material";
 import {AddBox} from "@mui/icons-material";
 import AppWithRedux from "../AppWithRedux";
+import {Provider} from "react-redux";
+import {store} from "../state/store";
+import {ReduxStoreProviderDecorator} from "../state/ReduxStoreProviderDecorator";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
   title: 'TODOLIST/AppWithRedux',
   component: AppWithRedux,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-  argTypes: {
-    addItem : {
-      description: "Button clicked inside form"
-    }
-  },
+  decorators: [ReduxStoreProviderDecorator]
 } as ComponentMeta<typeof AppWithRedux>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof AppWithRedux> = (args) => <AddItemForm {...args} />;
+const Template: ComponentStory<typeof AppWithRedux> = (args) => <AppWithRedux />;
 
 export const AppWithReduxStory = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
