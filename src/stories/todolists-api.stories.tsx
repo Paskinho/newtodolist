@@ -17,7 +17,7 @@ export const GetTodolists = () => {
         const promise = axios.get ('https://social-network.samuraijs.com/api/1.1/todo-lists', settings)
             promise.then ((res)=> {
                 const result = res
-                debugger
+                setState(result.data)
             })
 
     }, [])
