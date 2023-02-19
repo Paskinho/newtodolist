@@ -8,7 +8,10 @@ export default {
 }
 
 const settings = {
-    withCredentials: true
+    withCredentials: true,
+    headers: {
+        "API-KEY": 'aeefc5de-7fbe-47c0-93be-ce3a4d1e3ad8'
+    }
 }
 
 export const GetTodolists = () => {
