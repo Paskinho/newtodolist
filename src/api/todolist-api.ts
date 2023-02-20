@@ -1,4 +1,5 @@
-import axios from "axios/index";
+import axios from "axios";
+import {GetTodolists} from "../stories/todolists-api.stories";
 
 const settings = {
     withCredentials: true,
@@ -8,10 +9,12 @@ const settings = {
 }
 
 export const todolistApi = {
-
     updateTodolist(id: string, title: string) {
         return axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists${id}`,{title},
             settings)
 
+    },
+    getTodolists (){
+        return axios.get ('https://social-network.samuraijs.com/api/1.1/todo-lists', settings)
     }
 }
