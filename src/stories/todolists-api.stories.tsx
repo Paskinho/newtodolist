@@ -6,17 +6,10 @@ export default {
     title: 'API'
 }
 
-const settings = {
-    withCredentials: true,
-    headers: {
-        "API-KEY": 'aeefc5de-7fbe-47c0-93be-ce3a4d1e3ad8',
-    }
-}
-
-export const GetTodolist = () => {
+export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-       todolistApi.getTodolist()
+       todolistApi.getTodolists()
            .then ((res)=> {
                 const result = res
                 setState(result.data)
