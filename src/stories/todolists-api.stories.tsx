@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios';
+import {todolistApi} from "../api/todolist-api";
 
 
 
-export default {
-    title: 'API'
-}
+
 
 const settings = {
     withCredentials: true,
@@ -55,9 +54,8 @@ export const UpdateTodolistTitle = () => {
     useEffect(() => {
         const id = "22529397-fdbd-450d-98b2-aaa8aaa94102"
         const todoName = "REACT&JS"
-        const promise = axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists${id}`,{title:todoName},
-            settings)
-        promise.then((res)=>{
+        todolistApi.updateTodolist(id,todoName)
+        .then((res)=>{
             setState(res.data)
         })
     }, [])
