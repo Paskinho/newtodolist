@@ -7,6 +7,16 @@ const settings = {
     }
 }
 
+const instance = axios.create({
+    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
+    withCredentials: true,
+    headers: {
+        // Не забываем заменить API-KEY на собственный
+        'API-KEY': '794181ab-6d62-4cfb-bc9f-d539dfac55f1',
+    },
+})
+
+
 export const todolistApi = {
     updateTodolist(id: string, title: string) {
         return axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists${id}`,{title},
