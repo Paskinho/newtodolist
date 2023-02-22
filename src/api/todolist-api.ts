@@ -53,14 +53,14 @@ type CreateTodolistType = {
 type UpdateTodolistType = {
     resultCode: number
     messages: Array<string>
-    fieldsErrors: Array<string>
+    fieldsErrors?: Array<string>
     data: {}
 }
 
 type DeleteTodolistType = {
     resultCode: number
     messages: Array<string>
-    fieldsErrors: Array<string>
+    fieldsErrors?: Array<string>
     data: {}
 }
 
