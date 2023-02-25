@@ -21,18 +21,43 @@ const instance = axios.create({
 
 export const taskApi = {
     createTask(title: string, todolistId: string) {
-        return instance.post(`todo-lists/${todolistId}/tasks`, {title},
+        return instance.post<CreateTaskType>(`todo-lists/${todolistId}/tasks`, {title},
             settings)
     },
     updateTaskTitle(taskId: string, newTitle: string, todolistId: string) {
-        return instance.put(`/todo-lists/${todolistId}/tasks/${taskId}`,{newTitle},
+        return instance.put<UpdateTaskTitleType>(`/todo-lists/${todolistId}/tasks/${taskId}`,{newTitle},
             settings)
     },
     changeTaskStatus(taskId: string, isDone: boolean, todolistId: string) {
-        return instance.put(`/todo-lists/${todolistId}/tasks/${taskId}`,{isDone},
+        return instance.put<changeTaskStatusType>(`/todo-lists/${todolistId}/tasks/${taskId}`,{isDone},
             settings)
     },
     deleteTask(taskId: string, todolistId: string){
-        return instance.delete(`/todo-lists/${todolistId}/tasks/${taskId}`, settings)
+        return instance.delete<deleteTaskType>(`/todo-lists/${todolistId}/tasks/${taskId}`, settings)
     }
+}
+
+
+type CreateTaskType = {
+    resultCode: number
+    messages: Array<string>
+    data: {}
+}
+
+type UpdateTaskTitleType = {
+    resultCode: number
+    messages: Array<string>
+    data: {}
+}
+
+type changeTaskStatusType = {
+    resultCode: number
+    messages: Array<string>
+    data: {}
+}
+
+type deleteTaskType = {
+    resultCode: number
+    messages: Array<string>
+    data: {}
 }
