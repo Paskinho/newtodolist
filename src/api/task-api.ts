@@ -23,5 +23,16 @@ export const taskApi = {
     createTask(title: string, todolistId: string) {
         return instance.post(`todo-lists/${todolistId}/tasks`, {title},
             settings)
+    },
+    updateTaskTitle(taskId: string, newTitle: string, todolistId: string) {
+        return instance.put(`/todo-lists/${todolistId}/tasks/${taskId}`,{newTitle},
+            settings)
+    },
+    changeTaskStatus(taskId: string, isDone: boolean, todolistId: string) {
+        return instance.put(`/todo-lists/${todolistId}/tasks/${taskId}`,{isDone},
+            settings)
+    },
+    deleteTask(taskId: string, todolistId: string){
+        return instance.delete(`/todo-lists/${todolistId}/tasks/${taskId}`, settings)
     }
 }
