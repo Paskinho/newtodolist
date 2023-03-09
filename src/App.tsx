@@ -78,7 +78,7 @@ function App() {
 
     useEffect(() => {
         todolistsAPI.getTodolists()
-            .then(() => {
+            .then((res) => {
                 dispatch(getTodoListsAC(res.data))
             })
     })
