@@ -100,7 +100,7 @@ export const getTodoListsAC = (toDoLists: TodolistType[]): GetTodoListsACType =>
     return {type: 'SET-TODO-LISTS', toDoLists} as const
 }
 
-export const getTodo = (dispatch: Dispatch) => {
+export const getTodosThunk = (dispatch: Dispatch) => {
     todolistsAPI.getTodolists()
         .then((res) => {
             dispatch(getTodoListsAC(res.data))
