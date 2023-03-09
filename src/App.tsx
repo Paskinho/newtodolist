@@ -77,8 +77,8 @@ function App() {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(getTodosThunk)
-    })
+        dispatch(getTodosThunk())
+    }, [])
 
     return (
         <div className="App">
