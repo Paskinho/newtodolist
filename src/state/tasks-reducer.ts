@@ -67,7 +67,9 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     switch (action.type) {
 
         case 'SET-TASKS': {
-            return {}
+            return {...state,
+            [action.todoId]: action.tasks
+            }
         }
 
         case 'SET-TODO-LISTS' : {
