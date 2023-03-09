@@ -30,6 +30,11 @@ export const Todolist = React.memo(function (props: PropsType) {
 
     const dispatch = useAppDispatch()
 
+    useEffect (() => {
+        dispatch(getTasksThunk(props.id))
+    }, [])
+
+
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.id)
     }, [props.addTask, props.id])
@@ -55,9 +60,6 @@ export const Todolist = React.memo(function (props: PropsType) {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
     }
 
-    useEffect (() => {
-        dispatch(getTasksThunk(props.id))
-    }, [])
 
     return <div>
         <h3><EditableSpan value={props.title} onChange={changeTodolistTitle}/>
