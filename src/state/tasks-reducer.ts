@@ -6,7 +6,7 @@ import {
     getTodoListsAC,
     RemoveTodolistActionType
 } from './todolists-reducer';
-import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI} from '../api/todolists-api'
+import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from '../api/todolists-api'
 import {Dispatch} from "redux";
 
 export type RemoveTaskActionType = {
@@ -162,6 +162,13 @@ export const createTaskThunk = (todoId: string, title: string) => (dispatch: Dis
     todolistsAPI.createTask(todoId, title)
         .then((res) => {
             dispatch(addTaskAC(res.data.data.item, todoId))
+        })
+}
+
+export const updateTaskThunk = (todoId: string, taskId: string, model: UpdateTaskModelType) => (dispatch: Dispatch) => {
+    todolistsAPI.updateTask(todoId, taskId, model)
+        .then((res) => {
+            dispatch(changeTaskStatusAC(todoId, taskId, model))
         })
 }
 
