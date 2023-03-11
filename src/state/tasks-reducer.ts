@@ -165,10 +165,10 @@ export const createTaskThunk = (todoId: string, title: string) => (dispatch: Dis
         })
 }
 
-export const updateTaskThunk = (todoId: string, taskId: string, model: UpdateTaskModelType) => (dispatch: Dispatch) => {
-    todolistsAPI.updateTask(todoId, taskId, model)
+export const updateTaskThunk = (todoId: string, taskId: string, status: TaskStatuses) => (dispatch: Dispatch) => {
+    todolistsAPI.updateTask(todoId, taskId, status)
         .then((res) => {
-            dispatch(changeTaskStatusAC(todoId, taskId, model))
+            dispatch(changeTaskStatusAC(todoId, taskId, status))
         })
 }
 
