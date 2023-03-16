@@ -9,13 +9,15 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
         case 'REMOVE-TODOLIST':
             return state.filter(tl => tl.id !== action.id)
         case 'ADD-TODOLIST':
-            return [{...action.todolist, filter: 'all',entityStatus: 'idle' }, ...state]
+            return [{...action.todolist, filter: 'all', entityStatus: 'idle'}, ...state]
         case 'CHANGE-TODOLIST-TITLE':
             return state.map(tl => tl.id === action.id ? {...tl, title: action.title} : tl)
         case 'CHANGE-TODOLIST-FILTER':
             return state.map(tl => tl.id === action.id ? {...tl, filter: action.filter} : tl)
         case 'SET-TODOLISTS':
             return action.todolists.map(tl => ({...tl, filter: 'all', entityStatus: "idle"}))
+        case 'CHANGE-ENTITY-STATUS':
+            return state.map((tl) => action.id === tl.id ? {...tl, entityStatus: action.status} : tl)
         default:
             return state
     }
@@ -34,6 +36,11 @@ export const changeTodolistFilterAC = (id: string, filter: FilterValuesType) => 
     id,
     filter
 } as const)
+export const changeEntityStatusAC = (id: string, status: RequestStatusType) => ({
+    type: 'CHANGE-ENTITY-STATUS',
+    id,
+    status
+} as const)
 export const setTodolistsAC = (todolists: Array<TodolistType>) => ({type: 'SET-TODOLISTS', todolists} as const)
 
 // thunks
@@ -50,6 +57,7 @@ export const fetchTodolistsTC = () => {
 export const removeTodolistTC = (todolistId: string) => {
     return (dispatch: Dispatch<ActionsType>) => {
         dispatch(setStatusAC("loading"))
+        dispatch(changeEntityStatusAC(todolistId,'loading'))
         todolistsAPI.deleteTodolist(todolistId)
             .then((res) => {
                 dispatch(removeTodolistAC(todolistId))
@@ -87,6 +95,7 @@ type ActionsType =
     | AddTodolistActionType
     | ReturnType<typeof changeTodolistTitleAC>
     | ReturnType<typeof changeTodolistFilterAC>
+    | ReturnType<typeof changeEntityStatusAC>
     | SetTodolistsActionType
     | SetStatusType
 
