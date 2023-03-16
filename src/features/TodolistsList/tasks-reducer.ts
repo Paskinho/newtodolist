@@ -1,4 +1,9 @@
-import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType} from './todolists-reducer'
+import {
+    AddTodolistActionType,
+    changeEntityStatusAC,
+    RemoveTodolistActionType,
+    SetTodolistsActionType
+} from './todolists-reducer'
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from '../../api/todolists-api'
 import {Dispatch} from 'redux'
 import {AppRootStateType} from '../../app/store'
@@ -110,10 +115,23 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
 
         todolistsAPI.updateTask(todolistId, taskId, apiModel)
             .then(res => {
-                const action = updateTaskAC(taskId, domainModel, todolistId)
-                dispatch(action)
-                dispatch(setStatusAC('succeeded'))
-            })
+                if (res.data.resultCode === 0) {
+                    const action = updateTaskAC(taskId, domainModel, todolistId)
+                    dispatch(action)
+                    dispatch(setStatusAC('succeeded'))
+                }
+                else {
+                    if (res.data.messages.length) {
+                        dispatch(setErrorAC(res.data.messages[0]))
+                    } else {
+                        dispatch(setErrorAC('Some error'))
+                    }
+                }
+            }).catch((err)=> {
+            dispatch(setStatusAC('failed'))
+        dispatch(setErrorAC(err.message))
+            }
+        )
     }
 
 // types
