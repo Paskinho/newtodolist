@@ -1,6 +1,6 @@
 import {todolistsAPI, TodolistType} from '../../api/todolists-api'
 import {Dispatch} from 'redux'
-import {RequestStatusType, setStatusAC, SetStatusType} from "../../app/app-reducer";
+import {RequestStatusType, setErrorAC, SetErrorType, setStatusAC, SetStatusType} from "../../app/app-reducer";
 
 const initialState: Array<TodolistDomainType> = []
 
@@ -54,14 +54,29 @@ export const fetchTodolistsTC = () => {
             })
     }
 }
+
 export const removeTodolistTC = (todolistId: string) => {
     return (dispatch: Dispatch<ActionsType>) => {
         dispatch(setStatusAC("loading"))
-        dispatch(changeEntityStatusAC(todolistId,'loading'))
+        dispatch(changeEntityStatusAC(todolistId, 'loading'))
         todolistsAPI.deleteTodolist(todolistId)
             .then((res) => {
-                dispatch(removeTodolistAC(todolistId))
-                dispatch(setStatusAC("succeeded"))
+                if (res.data.resultCode === 0) {
+                    dispatch(removeTodolistAC(todolistId))
+                    dispatch(setStatusAC("succeeded"))
+                }
+                else {
+                    if (res.data.messages.length) {
+                        dispatch(setErrorAC(res.data.messages[0]))
+                    } else {
+                        dispatch(setErrorAC('Some error'))
+                    }
+                }
+            })
+            .catch((error) => {
+                dispatch(setStatusAC('failed'))
+                dispatch(changeEntityStatusAC(todolistId, 'failed'))
+                dispatch(setErrorAC(error.message))
             })
     }
 }
@@ -98,6 +113,7 @@ type ActionsType =
     | ReturnType<typeof changeEntityStatusAC>
     | SetTodolistsActionType
     | SetStatusType
+    | SetErrorType
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TodolistDomainType = TodolistType & {
