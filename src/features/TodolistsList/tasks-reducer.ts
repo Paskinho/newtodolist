@@ -9,7 +9,7 @@ import {Dispatch} from 'redux'
 import {AppRootStateType} from '../../app/store'
 import {setErrorAC, SetErrorType, setStatusAC, SetStatusType} from "../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {AxiosError} from "axios";
+import axios, {AxiosError} from "axios";
 
 const initialState: TasksStateType = {}
 
@@ -75,19 +75,35 @@ export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: D
             dispatch(setStatusAC('succeeded'))
         })
 }
-export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
+export const addTaskTC = (title: string, todolistId: string) => async (dispatch: Dispatch<ActionsType>) => {
     dispatch(setStatusAC('loading'))
-    todolistsAPI.createTask(todolistId, title)
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                const task = res.data.data.item
-                const action = addTaskAC(task)
-                dispatch(action)
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-            dispatch(setStatusAC('idle'))
-        })
+    try {
+        const res = await todolistsAPI.createTask(todolistId, title)
+        if (res.data.resultCode === 0) {
+            const task = res.data.data.item
+            const action = addTaskAC(task)
+            dispatch(action)
+        } else {
+            handleServerAppError(res.data, dispatch)
+        }
+    } catch (err) {
+        if (axios.isAxiosError<{message: string}>(err)) {
+            const error = err.response ? err.response.data.message : err.message
+            handleServerNetworkError(dispatch, error)
+        }
+    }
+
+
+    // .then(res => {
+    //     if (res.data.resultCode === 0) {
+    //         const task = res.data.data.item
+    //         const action = addTaskAC(task)
+    //         dispatch(action)
+    //     } else {
+    //         handleServerAppError(res.data, dispatch)
+    //     }
+    //     dispatch(setStatusAC('idle'))
+    // })
 }
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) =>
     (dispatch: Dispatch<ActionsType>, getState: () => AppRootStateType) => {
@@ -119,9 +135,9 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
                 } else {
                     handleServerAppError(res.data, dispatch)
                 }
-            }).catch((err: AxiosError<{message: string}>) => {
-                const error = err.response?.data ? err.response?.data.message : err.message
-            handleServerNetworkError(dispatch, error)
+            }).catch((err: AxiosError<{ message: string }>) => {
+                const error = err.response ? err.response.data.message : err.message
+                handleServerNetworkError(dispatch, error)
             }
         )
     }
