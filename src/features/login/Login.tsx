@@ -8,8 +8,9 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from 'formik';
-import axios from "axios";
 import {authAPI} from "../../api/todolists-api";
+import {useAppDispatch} from "../../app/store";
+import {loginTC} from "./auth-reducer";
 
 
 type FormikErrorType = {
@@ -27,6 +28,7 @@ export type ValuesType = {
 
 export const Login = () => {
 
+    const dispatch = useAppDispatch()
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -53,11 +55,7 @@ export const Login = () => {
             return errors
         },
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
-            authAPI.login(values)
-                .then(()=> {
-
-                })
+            dispatch(loginTC(values))
             formik.resetForm()
         },
     })
