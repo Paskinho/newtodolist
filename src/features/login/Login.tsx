@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from 'formik';
 import axios from "axios";
-import {authAPI} from "../api/todolists-api";
+import {authAPI} from "../../api/todolists-api";
 
 
 type FormikErrorType = {

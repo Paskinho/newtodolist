@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import {ValuesType} from "../features/Login";
+import {ValuesType} from "../features/login/Login";
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
