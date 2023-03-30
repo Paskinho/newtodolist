@@ -15,12 +15,15 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import {AddItemForm} from '../../components/AddItemForm/AddItemForm'
 import {Todolist} from './Todolist/Todolist'
+import { Navigate } from 'react-router-dom'
+import {Navigate} from "react-router-dom";
 
 
 export const TodolistsList: React.FC = () => {
     const todolists = useAppSelector<Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useAppSelector<TasksStateType>(state => state.tasks)
     const dispatch = useAppDispatch()
+    const isLoggedIn = useAppSelector (state => state.auth.isLoggedIn)
 
     useEffect(() => {
         const thunk = fetchTodolistsTC()
@@ -66,6 +69,10 @@ export const TodolistsList: React.FC = () => {
         const thunk = addTodolistTC(title)
         dispatch(thunk)
     }, [dispatch])
+
+    if(!isLoggedIn) {
+        return <Navigate to={'/login'}/>
+    }
 
 
     return <>

@@ -3,6 +3,7 @@ import { SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from '.
 import {authAPI} from "../../api/todolists-api";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {addTaskAC} from "../TodolistsList/tasks-reducer";
+import {ValuesType} from "./Login";
 
 const initialState = {
     isLoggedIn: false
@@ -22,11 +23,10 @@ export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 
 // thunks
-export const loginTC = (data: any) => (dispatch: Dispatch<ActionsType>) => {
-
+export const loginTC = (data: ValuesType) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.login(data)
-        .then((res)=> {
+        .then((res) => {
             if (res.data.resultCode === 0) {
                 dispatch(setIsLoggedInAC(true))
                 dispatch(setAppStatusAC('succeeded'))
@@ -37,8 +37,6 @@ export const loginTC = (data: any) => (dispatch: Dispatch<ActionsType>) => {
         .catch((error) => {
             handleServerNetworkError(error, dispatch)
         })
-
-        }
-
+}
 // types
 type ActionsType = ReturnType<typeof setIsLoggedInAC> | SetAppStatusActionType | SetAppErrorActionType

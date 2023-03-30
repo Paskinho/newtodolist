@@ -8,9 +8,9 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from 'formik';
-import {authAPI} from "../../api/todolists-api";
-import {useAppDispatch} from "../../app/store";
+import {useAppDispatch, useAppSelector} from "../../app/store";
 import {loginTC} from "./auth-reducer";
+import {Navigate} from "react-router-dom";
 
 
 type FormikErrorType = {
@@ -27,6 +27,9 @@ export type ValuesType = {
 
 
 export const Login = () => {
+
+    const isLoggedIn = useAppSelector (state => state.auth.isLoggedIn)
+
 
     const dispatch = useAppDispatch()
     const formik = useFormik({
@@ -59,6 +62,10 @@ export const Login = () => {
             formik.resetForm()
         },
     })
+
+    if(isLoggedIn) {
+        return <Navigate to={''}/>
+    }
 
 
     return <Grid container justifyContent={'center'}>
