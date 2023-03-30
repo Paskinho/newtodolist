@@ -6,7 +6,8 @@ import {addTaskAC} from "../TodolistsList/tasks-reducer";
 import {ValuesType} from "./Login";
 
 const initialState = {
-    isLoggedIn: false
+    isLoggedIn: false,
+    isInitialized: false
 }
 type InitialStateType = typeof initialState
 
@@ -25,7 +26,7 @@ export const setIsLoggedInAC = (value: boolean) =>
 // thunks
 
 
-export const meTC = (data: ValuesType) => (dispatch: Dispatch<ActionsType>) => {
+export const meTC = () => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.me()
         .then((res) => {

@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './App.css'
 import {TodolistsList} from '../features/TodolistsList/TodolistsList'
-import {useAppSelector} from './store'
+import {useAppDispatch, useAppSelector} from './store'
 import {RequestStatusType} from './app-reducer'
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,6 +15,7 @@ import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import {Login} from "../features/login/Login";
 import {Navigate, Route, Routes} from 'react-router-dom'
 import {meTC} from "../features/login/auth-reducer";
+import {CircularProgress} from "@mui/material";
 
 
 function App() {
@@ -22,10 +23,20 @@ function App() {
 
     const dispatch = useAppDispatch()
     const status = useAppSelector<RequestStatusType>((state) => state.app.status)
+    const isInitialized = useAppSelector<boolean>((state) => state.auth.isInitialized)
+
+
 
     useEffect(()=> {
         dispatch(meTC())
     },[])
+
+    if(!isInitialized) {
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
 
     return (
         <div className="App">
