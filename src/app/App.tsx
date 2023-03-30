@@ -14,11 +14,19 @@ import {Menu} from '@mui/icons-material';
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import {Login} from "../features/login/Login";
 import {Navigate, Route, Routes} from 'react-router-dom'
+import {meTC} from "../features/login/auth-reducer";
 
 
 function App() {
 
+
+    const dispatch = useAppDispatch()
     const status = useAppSelector<RequestStatusType>((state) => state.app.status)
+
+    useEffect(()=> {
+        dispatch(meTC())
+    },[])
+
     return (
         <div className="App">
             <ErrorSnackbar/>
