@@ -29,6 +29,7 @@ const slice = createSlice({
 })
 
 
+
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK':
