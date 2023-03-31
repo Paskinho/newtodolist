@@ -44,26 +44,19 @@ const slice = createSlice({
         },
         setTodolists: (state, action: PayloadAction<{ todolists: TodolistType[] }>) => {
 
-			state.forEach((tl)=> {
-				return{...tl, filter: 'all', entityStatus: 'idle'}
-			})
-
-			//return action.payload.todolists.map(tl => ({...tl, filter: 'all', entityStatus: 'idle'}))
-
-        }
-
-    }
+			return action.payload.todolists.map(tl => ({...tl, filter: 'all', entityStatus: 'idle'}))
+},
+        },
+            extraReducers: builder => {
+            builder.addCase(todolistsActions.addTodolist(state,action))
+            })
+}
 })
 
 
-const _todolistsReducer = (state: Array<TodolistDomainType> = initialState, action: ActionsType): Array<TodolistDomainType> => {
-    switch (action.type) {
 
-
-        default:
-            return state
-    }
-}
+export const todolistReducer = slice.reducer
+			export const todolistActions = slice.actions
 
 
 // thunks
