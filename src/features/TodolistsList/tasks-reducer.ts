@@ -1,11 +1,24 @@
-import { AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType } from './todolists-reducer'
+import { todolistActions } from './todolists-reducer'
 import { TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType } from 'api/todolists-api'
 import { Dispatch } from 'redux'
 import { AppRootStateType, AppThunk } from 'app/store'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { appActions } from 'app/app-reducer';
+import {createSlice} from "@reduxjs/toolkit";
 
 const initialState: TasksStateType = {}
+
+const slice = createSlice({
+	name: 'tasks',
+	initialState,
+	reducers: {},
+	extraReducers: builder => {
+		builder.addCase(todolistActions.addTodolist,(state, action)=>{
+
+		})
+	}
+})
+
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
 	switch (action.type) {
