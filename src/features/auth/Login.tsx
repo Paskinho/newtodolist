@@ -1,7 +1,7 @@
 import React from 'react'
 import { useFormik } from 'formik'
 import { useSelector } from 'react-redux'
-import { loginTC } from './auth-reducer'
+import { loginTC } from 'features/auth/auth.reducer'
 import { AppRootStateType } from '../../app/store'
 import { Navigate } from 'react-router-dom'
 import { useAppDispatch } from '../../hooks/useAppDispatch';

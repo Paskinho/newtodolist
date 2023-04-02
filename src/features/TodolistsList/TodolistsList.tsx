@@ -1,22 +1,22 @@
 import React, { useCallback, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { AppRootStateType } from '../../app/store'
+import { AppRootStateType } from 'app/store'
 import {
 	addTodolistTC,
-	changeTodolistFilterAC,
 	changeTodolistTitleTC,
 	fetchTodolistsTC,
 	FilterValuesType,
 	removeTodolistTC,
-	TodolistDomainType
+	TodolistDomainType, todolistsActions
 } from './todolists-reducer'
 import { addTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from './tasks-reducer'
-import { TaskStatuses } from '../../api/todolists-api'
+import { TaskStatuses } from 'api/todolists-api'
 import { Grid, Paper } from '@mui/material'
-import { AddItemForm } from '../../components/AddItemForm/AddItemForm'
+import { AddItemForm } from 'components/AddItemForm/AddItemForm'
 import { Todolist } from './Todolist/Todolist'
 import { Navigate } from 'react-router-dom'
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { selectIsLoggedIn } from 'features/auth/auth.selectors';
 
 type PropsType = {
     demo?: boolean
@@ -25,7 +25,7 @@ type PropsType = {
 export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const isLoggedIn = useSelector(selectIsLoggedIn)
 
     const dispatch = useAppDispatch()
 
@@ -57,9 +57,8 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
         dispatch(thunk)
     }, [])
 
-    const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
-        const action = changeTodolistFilterAC(todolistId, value)
-        dispatch(action)
+    const changeFilter = useCallback(function (filter: FilterValuesType, id: string) {
+        dispatch(todolistsActions.changeTodolistFilter({id, filter}))
     }, [])
 
     const removeTodolist = useCallback(function (id: string) {
