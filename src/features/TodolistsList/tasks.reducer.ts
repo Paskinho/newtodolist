@@ -6,6 +6,7 @@ import { todolistsActions } from 'features/TodolistsList/todolists.reducer';
 import {createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { clearTasksAndTodolists } from 'common/actions/common.actions';
 import {Dispatch} from "redux";
+import {createAppAsyncThunk} from "utils/create-app-async-thunk";
 
 type AsyncThunkConfig = {
 	state?: unknown
@@ -19,7 +20,7 @@ type AsyncThunkConfig = {
 }
 
 
-const fetchTasks = createAsyncThunk<{tasks: TaskType[], todolistId: string},string,{rejectValue: null}>
+const fetchTasks = createAppAsyncThunk<{tasks: TaskType[], todolistId: string},string>
 ('tasks/fetchTasks', async (todolistId, thunkAPI)=> {
 	const {dispatch, rejectWithValue} = thunkAPI
 	try {
