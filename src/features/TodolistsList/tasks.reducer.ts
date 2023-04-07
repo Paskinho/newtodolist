@@ -1,4 +1,11 @@
-import { TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType } from 'api/todolists-api'
+import {
+	AddTaskArgType,
+	TaskPriorities,
+	TaskStatuses,
+	TaskType,
+	todolistsAPI,
+	UpdateTaskModelType
+} from 'api/todolists-api'
 import { AppThunk } from 'app/store'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
 import { appActions } from 'app/app.reducer';
@@ -40,12 +47,12 @@ const fetchTasks = createAppAsyncThunk<{tasks: TaskType[], todolistId: string},s
 
 
 
-const addTask = createAppAsyncThunk<{ task: TaskType}, {title: string, todolistId: string}>('tasks/addTask',
+const addTask = createAppAsyncThunk<{ task: TaskType},AddTaskArgType>('tasks/addTask',
 	async (arg, thunkAPI) => {
 	    const {dispatch, rejectWithValue} = thunkAPI
 	try {
 	dispatch(appActions.setAppStatus({status: 'loading'}))
-		const res = await todolistsAPI.createTask(todolistId, title)
+		const res = await todolistsAPI.createTask(arg)
 				if (res.data.resultCode === 0) {
 					const task = res.data.data.item
 					dispatch(appActions.setAppStatus({status: 'succeeded'}))
@@ -120,8 +127,7 @@ const slice = createSlice({
 
 export const tasksReducer = slice.reducer
 export const tasksActions = slice.actions
-export const tasksThunks = {fetchTasks}
-export const addTasksThunks={addTask}
+export const tasksThunks = {fetchTasks, addTask}
 // thunks
 
 
