@@ -68,19 +68,22 @@ const addTask = createAppAsyncThunk<{ task: TaskType},AddTaskArgType>('tasks/add
 			}
 })
 
-
-
-const updateTask = createAppAsyncThunk<any, { taskId: string,
+type UpdateTaskArgType = {
+	taskId: string,
 	domainModel: UpdateDomainTaskModelType,
-	todolistId: string }>
+	todolistId: string
+}
+
+const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>
 ('tasks/updateTask', async (arg,thunkAPI) => {
 	const {dispatch,rejectWithValue,getState} = thunkAPI
 	try {
 		const state = getState()
 		const task = state.tasks[arg.todolistId].find(t => t.id === arg.taskId)
 		if (!task) {
+			//TODO
 			console.warn('task not found in the state')
-			return
+			return rejectWithValue(null)
 		}
 
 		const apiModel: UpdateTaskModelType = {
@@ -92,47 +95,21 @@ const updateTask = createAppAsyncThunk<any, { taskId: string,
 			status: task.status,
 			...arg.domainModel
 		}
-	}
-	catch(e) {
+		const res = await todolistsAPI.updateTask(arg.todolistId, arg.taskId, apiModel)
+		if (res.data.resultCode === 0) {
+			return arg
+		}
+		else {
+			handleServerAppError(res.data, dispatch);
+			return rejectWithValue(null)
+		}
+	} catch(e) {
 		handleServerNetworkError(e, dispatch)
 		return rejectWithValue(null)
 	}
 
 
 })
-
-const _updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string): AppThunk =>
-	(dispatch, getState) => {
-		const state = getState()
-		const task = state.tasks[todolistId].find(t => t.id === taskId)
-		if (!task) {
-			//throw new Error("task not found in the state");
-			console.warn('task not found in the state')
-			return
-		}
-
-		const apiModel: UpdateTaskModelType = {
-			deadline: task.deadline,
-			description: task.description,
-			priority: task.priority,
-			startDate: task.startDate,
-			title: task.title,
-			status: task.status,
-			...domainModel
-		}
-
-		todolistsAPI.updateTask(todolistId, taskId, apiModel)
-			.then(res => {
-				if (res.data.resultCode === 0) {
-					dispatch(tasksActions.updateTask({taskId, model: domainModel, todolistId}))
-				} else {
-					handleServerAppError(res.data, dispatch);
-				}
-			})
-			.catch((error) => {
-				handleServerNetworkError(error, dispatch);
-			})
-	}
 
 
 
