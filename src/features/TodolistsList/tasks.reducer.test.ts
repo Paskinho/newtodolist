@@ -1,6 +1,6 @@
-import { tasksActions, tasksReducer, TasksStateType, } from './tasks-reducer'
+import { tasksActions, tasksReducer, TasksStateType, } from 'features/TodolistsList/tasks.reducer'
 import { TaskPriorities, TaskStatuses } from 'api/todolists-api'
-import { todolistsActions } from 'features/TodolistsList/todolists-reducer';
+import { todolistsActions } from 'features/TodolistsList/todolists.reducer';
 
 let startState: TasksStateType = {};
 beforeEach(() => {
@@ -43,7 +43,7 @@ test('correct task should be deleted from correct array', () => {
 
 	expect(endState['todolistId1'].length).toBe(3);
 	expect(endState['todolistId2'].length).toBe(2);
-	expect(endState['todolistId2'].every(t => t.id != '2')).toBeTruthy();
+	expect(endState['todolistId2'].every(t => t.id !== '2')).toBeTruthy();
 });
 
 test('correct task should be added to correct array', () => {

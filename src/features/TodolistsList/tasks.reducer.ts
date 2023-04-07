@@ -1,10 +1,10 @@
 import { TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType } from 'api/todolists-api'
-import { Dispatch } from 'redux'
 import { AppThunk } from 'app/store'
 import { handleServerAppError, handleServerNetworkError } from 'utils/error-utils'
-import { appActions } from 'app/app-reducer';
-import { todolistsActions } from 'features/TodolistsList/todolists-reducer';
+import { appActions } from 'app/app.reducer';
+import { todolistsActions } from 'features/TodolistsList/todolists.reducer';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { clearTasksAndTodolists } from 'common/actions/common.actions';
 
 
 const initialState: TasksStateType = {}
@@ -50,6 +50,9 @@ const slice = createSlice({
 					state[tl.id] = []
 				})
 			})
+			.addCase(clearTasksAndTodolists, () => {
+				return {}
+			})
 	}
 })
 
@@ -70,9 +73,8 @@ export const fetchTasksTC = (todolistId: string): AppThunk => (dispatch) => {
 
 export const removeTaskTC = (taskId: string, todolistId: string): AppThunk => (dispatch) => {
 	todolistsAPI.deleteTask(todolistId, taskId)
-		.then(res => {
-			const action = tasksActions.removeTask({taskId, todolistId})
-			dispatch(action)
+		.then(() => {
+			dispatch(tasksActions.removeTask({taskId, todolistId}))
 		})
 }
 
