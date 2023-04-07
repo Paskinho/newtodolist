@@ -9,12 +9,18 @@ import { clearTasksAndTodolists } from 'common/actions/common.actions';
 
 
 const fetchTasks = createAsyncThunk('tasks/fetchTasks', async (todolistId: string, thunkAPI)=> {
-	const {dispatch} = thunkAPI
-	dispatch(appActions.setAppStatus({status: 'loading'}))
-	const res = await todolistsAPI.getTasks(todolistId)
-	const tasks = res.data.items
-	dispatch(appActions.setAppStatus({status: 'succeeded'}))
-			return {tasks, todolistId}
+	const {dispatch, rejectWithValue} = thunkAPI
+	try {
+		dispatch(appActions.setAppStatus({status: 'loading'}))
+		const res = await todolistsAPI.getTasks(todolistId)
+		const tasks = res.data.items
+		dispatch(appActions.setAppStatus({status: 'succeeded'}))
+		return {tasks, todolistId}
+	} catch (e) {
+		debugger
+		return rejectWithValue('ERROR')
+	}
+
 	// dispatch(tasksActions.setTasks({tasks, todolistId}))
 })
 
@@ -53,8 +59,8 @@ const slice = createSlice({
 			.addCase(fetchTasks.fulfilled, (state, action)=> {
 				state[action.payload.todolistId] = action.payload.tasks
 			})
-			.addCase(todolistsActions.addTodolist, (state, action) => {
-				state[action.payload.todolist.id] = []
+			.addCase(fetchTasks.rejected, (state, action) => {
+
 			})
 			.addCase(todolistsActions.removeTodolist, (state, action) => {
 				delete state[action.payload.id]
