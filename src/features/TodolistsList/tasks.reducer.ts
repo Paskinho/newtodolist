@@ -75,14 +75,14 @@ type UpdateTaskArgType = {
 }
 
 const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>
-('tasks/updateTask', async (arg,thunkAPI) => {
-	const {dispatch,rejectWithValue,getState} = thunkAPI
+('tasks/updateTask', async (arg, thunkAPI) => {
+	const {dispatch, rejectWithValue, getState} = thunkAPI
 	try {
+		dispatch(appActions.setAppStatus({status: 'loading'}))
 		const state = getState()
 		const task = state.tasks[arg.todolistId].find(t => t.id === arg.taskId)
 		if (!task) {
-			//TODO
-			dispatch(appActions.setAppError({error: "Task not found in state"}))
+			dispatch(appActions.setAppError({error: 'Task not found'}))
 			return rejectWithValue(null)
 		}
 
@@ -95,20 +95,19 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>
 			status: task.status,
 			...arg.domainModel
 		}
+
 		const res = await todolistsAPI.updateTask(arg.todolistId, arg.taskId, apiModel)
 		if (res.data.resultCode === 0) {
+			dispatch(appActions.setAppStatus({status: 'succeeded'}))
 			return arg
-		}
-		else {
+		} else {
 			handleServerAppError(res.data, dispatch);
 			return rejectWithValue(null)
 		}
-	} catch(e) {
+	} catch (e) {
 		handleServerNetworkError(e, dispatch)
 		return rejectWithValue(null)
 	}
-
-
 })
 
 
