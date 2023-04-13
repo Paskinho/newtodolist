@@ -7,7 +7,7 @@ import {createAppAsyncThunk} from 'common/utils/create-app-async-thunk';
 import {handleServerNetworkError} from 'common/utils';
 import {handleServerAppError} from 'common/utils';
 import {
-    AddTaskArgType,
+    AddTaskArgType, RemoveTaskArgType,
     TaskType,
     todolistsApi,
     UpdateTaskArgType,
@@ -89,8 +89,14 @@ const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>
 })
 
 
-const removeTask = createAppAsyncThunk( "tasks/removeTask", async (taskId, todolistId) => {
-    return
+const removeTask = createAppAsyncThunk<RemoveTaskArgType>( "tasks/removeTask", async (arg,thunkAPI) => {
+	const {dispatch, rejectWithValue} = thunkAPI
+	try {
+		const res = await todolistsApi.deleteTask(todolistId, taskId)
+		.then(() => {
+			dispatch(tasksActions.removeTask({taskId, todolistId}))
+		})}
+
 })
 
 export const _removeTaskTC = (taskId: string, todolistId: string): AppThunk => (dispatch) => {
