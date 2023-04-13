@@ -8,16 +8,17 @@ import {
 	removeTodolistTC,
 	todolistsActions
 } from 'features/TodolistsList/todolists.reducer'
-import { tasksThunks, removeTaskTC } from 'features/TodolistsList/tasks.reducer'
-import { TaskStatuses } from 'api/todolists-api'
+import { removeTaskTC, tasksThunks } from 'features/TodolistsList/tasks.reducer'
 import { Grid, Paper } from '@mui/material'
-import { AddItemForm } from 'components/AddItemForm/AddItemForm'
+import { AddItemForm } from 'common/components'
 import { Todolist } from './Todolist/Todolist'
 import { Navigate } from 'react-router-dom'
-import { useAppDispatch } from 'hooks/useAppDispatch';
+import { useAppDispatch } from 'common/hooks/useAppDispatch';
 import { selectIsLoggedIn } from 'features/auth/auth.selectors';
 import { selectTasks } from 'features/TodolistsList/tasks.selectors';
 import { selectTodolists } from 'features/TodolistsList/todolists.selectors';
+import { TaskStatuses } from 'common/enums';
+
 
 type PropsType = {
 	demo?: boolean
@@ -44,18 +45,15 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
 	}, [])
 
 	const addTask = useCallback(function (title: string, todolistId: string) {
-		const thunk = tasksThunks.addTask({title, todolistId})
-		dispatch(thunk)
+		dispatch(tasksThunks.addTask({title, todolistId}))
 	}, [])
 
-	const changeStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
-		const thunk = tasksThunks.updateTask({taskId: id, domainModel: {status}, todolistId})
-		dispatch(thunk)
+	const changeStatus = useCallback(function (taskId: string, status: TaskStatuses, todolistId: string) {
+		dispatch(tasksThunks.updateTask({taskId, domainModel: {status}, todolistId}))
 	}, [])
 
-	const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-		const thunk = tasksThunks.updateTask(id, {title: newTitle}, todolistId)
-		dispatch(thunk)
+	const changeTaskTitle = useCallback(function (taskId: string, title: string, todolistId: string) {
+		dispatch(tasksThunks.updateTask({taskId, domainModel: {title}, todolistId}))
 	}, [])
 
 	const changeFilter = useCallback(function (filter: FilterValuesType, id: string) {
