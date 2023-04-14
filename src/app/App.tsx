@@ -20,6 +20,7 @@ import { ErrorSnackbar } from 'common/components'
 import { useAppDispatch } from 'common/hooks';
 import { selectIsLoggedIn } from 'features/auth/auth.selectors';
 import { selectAppStatus, selectIsInitialized } from 'app/app.selectors';
+import {bindActionCreators} from "redux";
 
 
 
@@ -32,7 +33,12 @@ function App() {
 	const dispatch = useAppDispatch()
 
 	useEffect(() => {
-		dispatch(authThunks.initializeApp())
+
+		const callBack = bindActionCreators(authThunks.initializeApp, dispatch)
+		callBack()
+
+
+		// dispatch(authThunks.initializeApp())
 	}, [])
 
 	const logoutHandler = useCallback(() => {
