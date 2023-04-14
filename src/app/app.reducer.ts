@@ -36,15 +36,3 @@ export const appThunks = {}
 
 
 
-export const initializeAppTC = () => (dispatch: Dispatch) => {
-	authAPI.me().then(res => {
-		if (res.data.resultCode === 0) {
-			dispatch(authActions.setIsLoggedIn({isLoggedIn: true}));
-		} else {
-
-		}
-
-		dispatch(appActions.setAppInitialized({isInitialized: true}));
-	})
-}
-
