@@ -27,6 +27,27 @@ const login = createAppAsyncThunk<{isLoggedIn: boolean}, LoginParamsType>
 })
 
 
+const logout = createAppAsyncThunk<{isLoggedIn: boolean}, void>
+('auth/logout', async (_, thunkAPI) => {
+	const {dispatch, rejectWithValue} = thunkAPI
+	try {
+		dispatch(appActions.setAppStatus({status: 'loading'}))
+		const res = await authAPI.logout()
+		if (res.data.resultCode === 0) {
+			dispatch(clearTasksAndTodolists())
+			dispatch(appActions.setAppStatus({status: 'succeeded'}))
+			return {isLoggedIn: false}
+		} else {
+			handleServerAppError(res.data, dispatch)
+			return rejectWithValue(null)
+		}
+	} catch (e) {
+		handleServerNetworkError(e, dispatch)
+		return rejectWithValue(null)
+	}
+})
+
+
 
 
 const slice = createSlice({
@@ -40,7 +61,13 @@ const slice = createSlice({
 		}
 	},
 	extraReducers: builder => {
-	builder.addCase(login.fulfilled)
+		builder
+			.addCase(login.fulfilled, (state, action) => {
+				state.isLoggedIn = action.payload.isLoggedIn
+			})
+			.addCase(logout.fulfilled, (state, action) => {
+				state.isLoggedIn = action.payload.isLoggedIn
+			})
 	}
 })
 
@@ -51,23 +78,4 @@ export const authThunks = {login}
 
 
 // thunks
-
-
-export const logoutTC = (): AppThunk => (dispatch) => {
-	dispatch(appActions.setAppStatus({status: 'loading'}))
-	authAPI.logout()
-		.then(res => {
-				if (res.data.resultCode === 0) {
-					dispatch(authActions.setIsLoggedIn({isLoggedIn: false}))
-					dispatch(clearTasksAndTodolists())
-					dispatch(appActions.setAppStatus({status: 'succeeded'}))
-				} else {
-					handleServerAppError(res.data, dispatch)
-				}
-			}
-		)
-		.catch((error) => {
-			handleServerNetworkError(error, dispatch)
-		})
-}
 
