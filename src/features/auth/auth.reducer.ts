@@ -1,10 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AppThunk } from 'app/store';
-import { appActions } from 'app/app.reducer';
-import { authAPI, LoginParamsType } from 'features/auth/auth.api';
-import { clearTasksAndTodolists } from 'common/actions';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {appActions} from 'app/app.reducer';
+import {authAPI, LoginParamsType} from 'features/auth/auth.api';
+import {clearTasksAndTodolists} from 'common/actions';
 import {createAppAsyncThunk, handleServerAppError, handleServerNetworkError} from 'common/utils';
-
 
 
 const login = createAppAsyncThunk<{isLoggedIn: boolean}, LoginParamsType>
@@ -48,6 +46,24 @@ const logout = createAppAsyncThunk<{isLoggedIn: boolean}, void>
 })
 
 
+const initializeApp = createAppAsyncThunk<{ isLoggedIn: boolean }, void>
+('app/initializeApp', async (_, thunkAPI) => {
+	const {dispatch, rejectWithValue} = thunkAPI
+	try {
+		const res = await authAPI.me()
+		if (res.data.resultCode === 0) {
+			return {isLoggedIn: true}
+		} else {
+			handleServerAppError(res.data, dispatch);
+			return rejectWithValue(null)
+		}
+	} catch (e) {
+		handleServerNetworkError(e, dispatch)
+		return rejectWithValue(null)
+	} finally {
+		dispatch(appActions.setAppInitialized({isInitialized: true}));
+	}
+})
 
 
 const slice = createSlice({
@@ -73,7 +89,7 @@ const slice = createSlice({
 
 export const authReducer = slice.reducer
 export const authActions = slice.actions
-export const authThunks = {login}
+export const authThunks = {login, logout, initializeApp}
 
 
 
