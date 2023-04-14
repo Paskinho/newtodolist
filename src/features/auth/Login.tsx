@@ -1,10 +1,10 @@
 import React from 'react'
 import { useFormik } from 'formik'
 import { useSelector } from 'react-redux'
-import { loginTC } from 'features/auth/auth.reducer'
 import { Navigate } from 'react-router-dom'
-import { useAppDispatch } from 'common/hooks/useAppDispatch';
 import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField } from '@mui/material'
+import { loginTC } from 'features/auth/auth.reducer'
+import { useAppDispatch } from 'common/hooks';
 import { selectIsLoggedIn } from 'features/auth/auth.selectors';
 
 export const Login = () => {

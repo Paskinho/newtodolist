@@ -13,14 +13,14 @@ export const todolistsApi = {
 	deleteTodolist(id: string) {
 		return instance.delete<ResponseType>(`todo-lists/${id}`);
 	},
-	updateTodolist(id: string, title: string) {
-		return instance.put<ResponseType>(`todo-lists/${id}`, {title: title});
+	updateTodolist(arg: UpdateTodolistTitleArgType) {
+		return instance.put<ResponseType>(`todo-lists/${arg.id}`, {title: arg.title});
 	},
 	getTasks(todolistId: string) {
 		return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`);
 	},
-	deleteTask(todolistId: string, taskId: string) {
-		return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`);
+	deleteTask(arg: RemoveTaskArgType) {
+		return instance.delete<ResponseType>(`todo-lists/${arg.todolistId}/tasks222/${arg.taskId}`);
 	},
 	createTask(arg: AddTaskArgType) {
 		return instance.post<ResponseType<{
@@ -32,14 +32,13 @@ export const todolistsApi = {
 	}
 }
 
-
+// Types
 export type TodolistType = {
 	id: string
 	title: string
 	addedDate: string
 	order: number
 }
-
 
 export type TaskType = {
 	description: string
@@ -53,6 +52,7 @@ export type TaskType = {
 	order: number
 	addedDate: string
 }
+
 export type UpdateTaskModelType = {
 	title: string
 	description: string
@@ -61,6 +61,7 @@ export type UpdateTaskModelType = {
 	startDate: string
 	deadline: string
 }
+
 type GetTasksResponse = {
 	error: string | null
 	totalCount: number
@@ -79,6 +80,12 @@ export type UpdateTaskArgType = {
 }
 
 export type RemoveTaskArgType = {
-	taskId: string,
 	todolistId: string
+	taskId: string
 }
+
+export type UpdateTodolistTitleArgType = {
+	id: string
+	title: string
+}
+
