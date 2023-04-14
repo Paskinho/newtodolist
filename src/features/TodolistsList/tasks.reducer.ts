@@ -12,13 +12,13 @@ import {
 import { createAppAsyncThunk, handleServerAppError, handleServerNetworkError } from 'common/utils';
 import { ResultCode, TaskPriorities, TaskStatuses } from 'common/enums';
 import { clearTasksAndTodolists } from 'common/actions';
+import {thunkTryCatch} from "common/utils/thunk-try-catch";
 
 
 const fetchTasks = createAppAsyncThunk<{ tasks: TaskType[], todolistId: string }, string>
 ('tasks/fetchTasks', async (todolistId, thunkAPI) => {
 	const {dispatch, rejectWithValue} = thunkAPI
 	try {
-		dispatch(appActions.setAppStatus({status: 'loading'}))
 		const res = await todolistsApi.getTasks(todolistId)
 		const tasks = res.data.items
 		dispatch(appActions.setAppStatus({status: 'succeeded'}))
@@ -32,8 +32,7 @@ const fetchTasks = createAppAsyncThunk<{ tasks: TaskType[], todolistId: string }
 const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>
 ('tasks/addTask', async (arg, thunkAPI) => {
 	const {dispatch, rejectWithValue} = thunkAPI
-	try {
-		dispatch(appActions.setAppStatus({status: 'loading'}))
+	return thunkTryCatch(thunkAPI, async () => {
 		const res = await todolistsApi.createTask(arg)
 		if (res.data.resultCode === ResultCode.Success) {
 			const task = res.data.data.item
@@ -43,18 +42,17 @@ const addTask = createAppAsyncThunk<{ task: TaskType }, AddTaskArgType>
 			handleServerAppError(res.data, dispatch);
 			return rejectWithValue(null)
 		}
-	} catch (e) {
-		handleServerNetworkError(e, dispatch)
-		return rejectWithValue(null)
-	}
+	})
 })
+
+
+
 
 
 const updateTask = createAppAsyncThunk<UpdateTaskArgType, UpdateTaskArgType>
 ('tasks/updateTask', async (arg, thunkAPI) => {
 	const {dispatch, rejectWithValue, getState} = thunkAPI
 	try {
-		dispatch(appActions.setAppStatus({status: 'loading'}))
 		const state = getState()
 		const task = state.tasks[arg.todolistId].find(t => t.id === arg.taskId)
 		if (!task) {
