@@ -36,9 +36,9 @@ function App() {
 		initializeApp()
 	}, [])
 
-	const logoutHandler = useCallback(() => {
-		logout()
-	}, [])
+	const logoutHandler = () => logout()
+
+
 
 	if (!isInitialized) {
 		return <div
