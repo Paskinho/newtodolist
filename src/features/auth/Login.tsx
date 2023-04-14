@@ -32,7 +32,13 @@ export const Login = () => {
             rememberMe: false
         },
         onSubmit: values => {
-            dispatch(authThunks.login(values));
+            dispatch(authThunks.login(values))
+                .unwrap()
+                .then((res)=>{
+
+            }).catch((reason)=>{
+
+            }) ;
         },
     })
 
