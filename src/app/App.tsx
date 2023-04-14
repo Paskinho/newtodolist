@@ -21,6 +21,9 @@ import { useAppDispatch } from 'common/hooks';
 import { selectIsLoggedIn } from 'features/auth/auth.selectors';
 import { selectAppStatus, selectIsInitialized } from 'app/app.selectors';
 
+
+
+
 function App() {
 	const status = useSelector(selectAppStatus)
 	const isInitialized = useSelector(selectIsInitialized)
