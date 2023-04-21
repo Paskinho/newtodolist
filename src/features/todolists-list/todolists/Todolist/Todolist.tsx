@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect} from 'react'
+import React, {FC, memo, useCallback, useEffect} from 'react'
 import { Delete } from '@mui/icons-material'
 import { Button, IconButton } from '@mui/material'
 import { Task } from './Task/Task'
