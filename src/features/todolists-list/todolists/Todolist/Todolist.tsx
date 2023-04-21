@@ -13,23 +13,25 @@ type PropsType = {
 	todolist: TodolistDomainType
 	tasks: TaskType[]
 	changeFilter: (value: FilterValuesType, todolistId: string) => void
-	addTask: (title: string, todolistId: string) => void
-	removeTask: (taskId: string, todolistId: string) => void
 	removeTodolist: (id: string) => void
 	changeTodolistTitle: (id: string, newTitle: string) => void
 }
 
+// const addTask = useCallback(function (title: string, todolistId: string) {
+// 	addTaskThunk({title, todolistId})
+// }, [])
+
 export const Todolist = React.memo(function (props: PropsType) {
 
-	const {fetchTasks} = useActions(tasksThunks)
+	const {fetchTasks, addTask} = useActions(tasksThunks)
 
 	useEffect(() => {
 		fetchTasks(props.todolist.id)
 	}, [])
 
-	const addTask = useCallback((title: string) => {
-		props.addTask(title, props.todolist.id)
-	}, [props.addTask, props.todolist.id])
+	const addTaskCallback = (title: string) => {
+		addTask({title, todolistId: props.todolist.id})
+	}
 
 	const removeTodolist = () => {
 		props.removeTodolist(props.todolist.id)
@@ -58,7 +60,7 @@ export const Todolist = React.memo(function (props: PropsType) {
 				<Delete/>
 			</IconButton>
 		</h3>
-		<AddItemForm addItem={addTask} disabled={props.todolist.entityStatus === 'loading'}/>
+		<AddItemForm addItem={addTaskCallback} disabled={props.todolist.entityStatus === 'loading'}/>
 		<div>
 			{
 				tasksForTodolist.map(t => <Task key={t.id} task={t} todolistId={props.todolist.id}
