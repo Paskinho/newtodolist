@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import {
@@ -14,7 +14,7 @@ import {
 import { Menu } from '@mui/icons-material'
 import { Login } from 'features/auth/Login/Login'
 import './App.css'
-import { TodolistsList } from 'features/TodolistsList/TodolistsList'
+import { TodolistsList } from 'features/todolists-list/TodolistsList'
 import { ErrorSnackbar } from 'common/components'
 import { useActions } from 'common/hooks';
 import { selectIsLoggedIn } from 'features/auth/auth.selectors';
