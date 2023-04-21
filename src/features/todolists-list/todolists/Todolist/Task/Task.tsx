@@ -1,9 +1,11 @@
 import React, { ChangeEvent, useCallback } from 'react'
 import { Checkbox, IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
-import { TaskType } from 'features/todolists-list/todolists/todolists.api'
 import { EditableSpan } from 'common/components'
 import { TaskStatuses } from 'common/enums';
+import {useActions} from "common/hooks";
+import {tasksThunks} from "features/todolists-list/tasks/tasks.reducer";
+import {TaskType} from "features/todolists-list/tasks/tasks.api";
 
 type TaskPropsType = {
 	task: TaskType
@@ -14,7 +16,13 @@ type TaskPropsType = {
 }
 
 export const Task = React.memo((props: TaskPropsType) => {
-	const onClickHandler = useCallback(() => props.removeTask(props.task.id, props.todolistId), [props.task.id, props.todolistId]);
+
+	const {removeTask} = useActions(tasksThunks)
+
+	const removeTaskHandler = useCallback(() => removeTask({
+		taskId: props.task.id,
+		todolistId: props.todolistId
+	}), [props.task.id, props.todolistId]);
 
 	const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
 		let newIsDoneValue = e.currentTarget.checked
@@ -33,7 +41,7 @@ export const Task = React.memo((props: TaskPropsType) => {
 		/>
 
 		<EditableSpan value={props.task.title} onChange={onTitleChangeHandler}/>
-		<IconButton onClick={onClickHandler}>
+		<IconButton onClick={removeTaskHandler}>
 			<Delete/>
 		</IconButton>
 	</div>
