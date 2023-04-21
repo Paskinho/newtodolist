@@ -6,7 +6,7 @@ import { TaskStatuses } from 'common/enums';
 import {useActions} from "common/hooks";
 import {tasksThunks} from "features/todolists-list/tasks/tasks.reducer";
 import {TaskType} from "features/todolists-list/tasks/tasks.api";
-import s from 'style.module.css'
+import s from './style.module.css'
 
 
 
