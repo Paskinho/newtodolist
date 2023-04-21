@@ -6,7 +6,7 @@ import { FilterValuesType, TodolistDomainType } from 'features/TodolistsList/tod
 import { tasksThunks } from 'features/TodolistsList/tasks.reducer';
 import { TaskType } from 'features/TodolistsList/todolists.api';
 import { TaskStatuses } from 'common/enums';
-import { useAppDispatch } from 'common/hooks';
+import { useActions, useAppDispatch } from 'common/hooks';
 import { AddItemForm, EditableSpan } from 'common/components'
 
 type PropsType = {
@@ -23,10 +23,10 @@ type PropsType = {
 
 export const Todolist = React.memo(function (props: PropsType) {
 
-	const dispatch = useAppDispatch()
+	const {fetchTasks} = useActions(tasksThunks)
 
 	useEffect(() => {
-		dispatch(tasksThunks.fetchTasks(props.todolist.id))
+		fetchTasks(props.todolist.id)
 	}, [])
 
 	const addTask = useCallback((title: string) => {

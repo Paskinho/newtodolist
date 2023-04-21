@@ -12,33 +12,27 @@ import {
 	Typography
 } from '@mui/material';
 import { Menu } from '@mui/icons-material'
-import { Login } from 'features/auth/Login'
-import { authThunks } from 'features/auth/auth.reducer'
+import { Login } from 'features/auth/Login/Login'
 import './App.css'
 import { TodolistsList } from 'features/TodolistsList/TodolistsList'
 import { ErrorSnackbar } from 'common/components'
-import {useActions, useAppDispatch} from 'common/hooks';
+import { useActions } from 'common/hooks';
 import { selectIsLoggedIn } from 'features/auth/auth.selectors';
 import { selectAppStatus, selectIsInitialized } from 'app/app.selectors';
-import {bindActionCreators} from "redux";
-
-
-
+import { authThunks } from 'features/auth/auth.reducer';
 
 function App() {
 	const status = useSelector(selectAppStatus)
 	const isInitialized = useSelector(selectIsInitialized)
 	const isLoggedIn = useSelector(selectIsLoggedIn)
 
-	const {initializeApp,logout} = useActions(authThunks)
+	const {initializeApp, logout} = useActions(authThunks)
 
 	useEffect(() => {
 		initializeApp()
 	}, [])
 
 	const logoutHandler = () => logout()
-
-
 
 	if (!isInitialized) {
 		return <div
@@ -65,7 +59,7 @@ function App() {
 				</AppBar>
 				<Container fixed>
 					<Routes>
-						<Route path={'/'} element={<TodolistsList />}/>
+						<Route path={'/'} element={<TodolistsList/>}/>
 						<Route path={'/login'} element={<Login/>}/>
 					</Routes>
 				</Container>
